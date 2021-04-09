@@ -7,11 +7,11 @@ Customizable Flutter calendar inspired by Google Calendar app.
 - date selection dialog (uses CrCalendar widget in range selection mode) with customization of buttons, texts and look of the CrCalendar widget.
 
 ##### Screenshots of [example app](https://github.com/Cleveroad/cr_calendar/tree/main/example):
-<img src="https://github.com/Cleveroad/cr_calendar/blob/main/screenshots/screenshot-1.png" height="500">  <img src="https://github.com/Cleveroad/cr_calendar/blob/main/screenshots/screenshot-2.png" height="500">  <img src="https://github.com/Cleveroad/cr_calendar/blob/main/screenshots/screenshot-3.png" height="500">
+<img src="https://raw.githubusercontent.com/Cleveroad/cr_calendar/main/screenshots/screenshot-1.png" height="500">  <img src="https://raw.githubusercontent.com/Cleveroad/cr_calendar/main/screenshots/screenshot-2.png" height="500">  <img src="https://raw.githubusercontent.com/Cleveroad/cr_calendar/main/screenshots/screenshot-3.png" height="500">
 
-<img src="https://github.com/Cleveroad/cr_calendar/blob/main/screenshots/screenshot-4.png" height="500">  <img src="https://github.com/Cleveroad/cr_calendar/blob/main/screenshots/screenshot-5.png" height="500">  <img src="https://github.com/Cleveroad/cr_calendar/blob/main/screenshots/screenshot-6.png" height="500">
+<img src="https://raw.githubusercontent.com/Cleveroad/cr_calendar/main/screenshots/screenshot-4.png" height="500">  <img src="https://raw.githubusercontent.com/Cleveroad/cr_calendar/main/screenshots/screenshot-5.png" height="500">  <img src="https://raw.githubusercontent.com/Cleveroad/cr_calendar/main/screenshots/screenshot-6.png" height="500">
 
-<img src="https://github.com/Cleveroad/cr_calendar/blob/main/screenshots/screenshot-7.png" height="322">
+<img src="https://raw.githubusercontent.com/Cleveroad/cr_calendar/main/screenshots/screenshot-7.png" height="322">
 
 ### Installation
 Add `cr_calendar` as a dependency in pubspec.yaml.
