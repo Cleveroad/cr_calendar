@@ -17,3 +17,7 @@
 # 0.0.5
 
 - update links
+
+# 0.0.6
+
+- update links
