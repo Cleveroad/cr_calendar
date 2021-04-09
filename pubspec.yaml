@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
 
   intl: ^0.16.0
-  jiffy: 3.0.1
-  scrollable_positioned_list: 0.1.8
+  jiffy: ^3.0.1
+  scrollable_positioned_list: ^0.1.8
 
 dev_dependencies:
   flutter_test:
