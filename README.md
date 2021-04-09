@@ -6,7 +6,7 @@ Customizable Flutter calendar inspired by Google Calendar app.
 - CrCalendar widget for displaying horizontally scrollable month view, with events lines over days.
 - date selection dialog (uses CrCalendar widget in range selection mode) with customization of buttons, texts and look of the CrCalendar widget.
 
-##### Screenshots of [example app](/example):
+##### Screenshots of [example app](https://github.com/Cleveroad/cr_calendar/tree/main/example):
 <img src="/screenshots/screenshot-1.png" height="500">  <img src="/screenshots/screenshot-2.png" height="500">  <img src="/screenshots/screenshot-3.png" height="500">
 
 <img src="/screenshots/screenshot-4.png" height="500">  <img src="/screenshots/screenshot-5.png" height="500">  <img src="/screenshots/screenshot-6.png" height="500">

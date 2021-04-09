@@ -1,8 +1,8 @@
 name: cr_calendar
 description: Awesome calendar with customizations, range picking and event showing.
-version: 0.0.3
+version: 0.0.4
 homepage: https://cleveroad.com
-repository: https://github.com/Cleveroad/CRCalendar
+repository: https://github.com/Cleveroad/cr_calendar
 
 environment:
   sdk: '>=2.12.2 <3.0.0'
