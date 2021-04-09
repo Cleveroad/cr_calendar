@@ -161,7 +161,7 @@ class _CreateEventDialogState extends State<CreateEventDialog> {
                       child: ElevatedButton(
                         onPressed:
                             _validateEventData() ? _onEventCreation : null,
-                        child: const Text('CANCEL'),
+                        child: const Text('OK'),
                       ),
                     ),
                   ],

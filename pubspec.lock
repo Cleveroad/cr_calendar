@@ -66,14 +66,14 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.1"
+    version: "0.17.0"
   jiffy:
     dependency: "direct main"
     description:
       name: jiffy
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "4.1.0"
   matcher:
     dependency: transitive
     description:
@@ -101,14 +101,14 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.0-nullsafety.3"
+    version: "1.11.0"
   scrollable_positioned_list:
     dependency: "direct main"
     description:
       name: scrollable_positioned_list
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.8"
+    version: "0.2.0-nullsafety.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -171,5 +171,5 @@ packages:
     source: hosted
     version: "2.1.0"
 sdks:
-  dart: ">=2.12.0-29.10.beta <3.0.0"
-  flutter: ">=1.22.0"
+  dart: ">=2.12.2 <3.0.0"
+  flutter: ">=2.0.0"

@@ -310,7 +310,7 @@ class _CrCalendarState extends State<CrCalendar> {
           controller: widget.controller._getUpdatedPageController(),
           itemBuilder: (context, index) {
             final offset = index - _initialPage;
-            final month = Jiffy(_initialDate).add(months: offset);
+            final month = Jiffy(_initialDate).add(months: offset).dateTime;
             return Container(
               color: widget.backgroundColor,
               child: MonthItem(
@@ -359,7 +359,7 @@ class _CrCalendarState extends State<CrCalendar> {
   void _recalculateDisplayMonth(int offset) {
     widget.controller.date =
         Jiffy([widget.initialDate.year, widget.initialDate.month])
-            .add(months: offset);
+            .add(months: offset).dateTime;
   }
 
   /// Page change callback. Fires when index of month is changed.
@@ -369,7 +369,7 @@ class _CrCalendarState extends State<CrCalendar> {
       final offset = page - _initialPage;
       _recalculateDisplayMonth(offset);
       final date = Jiffy([widget.initialDate.year, widget.initialDate.month])
-          .add(months: offset);
+          .add(months: offset).dateTime;
       widget.controller
         ..date = date
         ..onSwipe?.call(date.year, date.month);

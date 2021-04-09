@@ -51,9 +51,9 @@ List<EventProperties> resolveEventDrawersForWeek(
     int week, Jiffy monthStart, List<CalendarEventModel> events) {
   final drawers = <EventProperties>[];
 
-  final beginDate = Jiffy(monthStart).add(weeks: week).toJiffy();
+  final beginDate = Jiffy(monthStart).add(weeks: week);
   final endDate =
-      Jiffy(beginDate).add(days: Contract.kWeekDaysCount - 1).toJiffy();
+      Jiffy(beginDate).add(days: Contract.kWeekDaysCount - 1);
 
   for (final e in events) {
     final simpleEvent = _mapSimpleEventToDrawerOrNull(e, beginDate, endDate);

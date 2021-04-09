@@ -123,7 +123,6 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
           selectedDay.isSameOrBefore(widget.end)) {
         if (Jiffy(widget.begin)
             .add(days: index)
-            .toJiffy()
             .isSame(selectedDay)) {
           return true;
         }
@@ -171,7 +170,7 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
 
       return GestureDetector(
         onTap: () {
-          final tappedDate = Jiffy(widget.begin).add(days: index).toJiffy();
+          final tappedDate = Jiffy(widget.begin).add(days: index);
           widget.onDayTap?.call(tappedDate);
           if (widget.touchMode == TouchMode.singleTap) {
             _performDaySelecting(tappedDate);

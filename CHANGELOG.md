@@ -5,3 +5,7 @@
 # 0.0.2-nullsafety
 
 - add nullsafety
+
+# 0.0.3
+
+- update dependencies
