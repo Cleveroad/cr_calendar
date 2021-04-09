@@ -214,8 +214,7 @@ class CrCalendar extends StatefulWidget {
     this.onRangeSelected,
     this.onSwipeCallbackDebounceMs = 100,
     Key? key,
-  })  : assert(
-            maxEventLines <= 6, 'maxEventLines should be less then 6'),
+  })  : assert(maxEventLines <= 6, 'maxEventLines should be less then 6'),
         assert(dayItemMargin.top == 0 && dayItemMargin.bottom == 0,
             'dayItemMargin must be greater then 0'),
         super(key: key);
@@ -359,7 +358,8 @@ class _CrCalendarState extends State<CrCalendar> {
   void _recalculateDisplayMonth(int offset) {
     widget.controller.date =
         Jiffy([widget.initialDate.year, widget.initialDate.month])
-            .add(months: offset).dateTime;
+            .add(months: offset)
+            .dateTime;
   }
 
   /// Page change callback. Fires when index of month is changed.
@@ -369,7 +369,8 @@ class _CrCalendarState extends State<CrCalendar> {
       final offset = page - _initialPage;
       _recalculateDisplayMonth(offset);
       final date = Jiffy([widget.initialDate.year, widget.initialDate.month])
-          .add(months: offset).dateTime;
+          .add(months: offset)
+          .dateTime;
       widget.controller
         ..date = date
         ..onSwipe?.call(date.year, date.month);
