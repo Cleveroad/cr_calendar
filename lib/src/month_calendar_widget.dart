@@ -26,7 +26,6 @@ class MonthCalendarWidget extends StatefulWidget {
     required this.daysInMonth,
     required this.itemWidth,
     required this.itemHeight,
-    required this.dayItemMargin,
     required this.controller,
     required this.onDaySelected,
     required this.onRangeSelected,
@@ -47,7 +46,6 @@ class MonthCalendarWidget extends StatefulWidget {
   final int daysInMonth;
   final double itemWidth;
   final double itemHeight;
-  final EdgeInsets dayItemMargin;
   final CrCalendarController controller;
   final Function(Jiffy)? onDayTap;
   final Function(List<CalendarEventModel>, Jiffy)? onDaySelected;
@@ -181,7 +179,6 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
         },
         child: DayItemWidget(
           width: widget.itemWidth,
-          dayItemMargin: widget.dayItemMargin,
           body: widget.dayItemBuilder != null
               ? widget.dayItemBuilder?.call(DayItemProperties(
                   dayNumber: day.first,

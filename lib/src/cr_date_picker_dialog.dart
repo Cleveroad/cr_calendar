@@ -8,6 +8,16 @@ import 'package:intl/intl.dart';
 
 import 'contract.dart';
 
+///[adaptive] - days cells will change their height according to parent height.
+///
+///[scrollable] - days cells will change their height according to parent height
+///as long as it is larger than the cells width. The month scrolls if there is not enough space
+///
+enum LandscapeDaysResizeMode {
+  adaptive,
+  scrollable,
+}
+
 /// Properties holder for date picker.
 ///
 /// If you need to hide some element (e.g. picker title widget) pass SizedBox()
@@ -16,8 +26,8 @@ import 'contract.dart';
 class DatePickerProperties {
   /// Default constructor.
   const DatePickerProperties({
-    required this.weekDaysBuilder,
     required this.onDateRangeSelected,
+    this.weekDaysBuilder,
     this.backgroundColor = Colors.white,
     this.initialPickerDate,
     this.padding = const EdgeInsets.all(8),
@@ -32,8 +42,11 @@ class DatePickerProperties {
     this.yearPickerItemBuilder,
     this.okButtonBuilder,
     this.cancelButtonBuilder,
+    this.minDate,
+    this.maxDate,
     this.forceSixWeek = false,
-    this.firstWeekDay = WeekDays.sunday,
+    this.firstWeekDay = WeekDay.sunday,
+    this.landscapeDaysResizeMode = LandscapeDaysResizeMode.adaptive,
   });
 
   /// Background color for date picker dialog and year selection widget.
@@ -41,6 +54,12 @@ class DatePickerProperties {
 
   /// Initial date to be opened on dialog creation.
   final DateTime? initialPickerDate;
+
+  /// The minimum date until which the calendar can scroll.
+  final DateTime? minDate;
+
+  /// The maximum date until which the calendar can scroll.
+  final DateTime? maxDate;
 
   /// Picker dialog padding.
   final EdgeInsets padding;
@@ -52,7 +71,7 @@ class DatePickerProperties {
   final TouchMode? pickerMode;
 
   /// Builder for row of days over month view.
-  final WeekDaysBuilder weekDaysBuilder;
+  final WeekDaysBuilder? weekDaysBuilder;
 
   /// Title builder for widget on top of picker dialog.
   final DateTitleBuilder? pickerTitleBuilder;
@@ -92,7 +111,27 @@ class DatePickerProperties {
   final bool forceSixWeek;
 
   /// First day of date picker calendar.
-  final WeekDays firstWeekDay;
+  final WeekDay firstWeekDay;
+
+  /// Days resize mode.
+  final LandscapeDaysResizeMode landscapeDaysResizeMode;
+}
+
+/// To share [isDialogMode] through the calendar.
+class DatePickerSettings extends InheritedWidget {
+  const DatePickerSettings({
+    required Widget child,
+    required this.landscapeDaysResizeMode,
+    Key? key,
+  }) : super(key: key, child: child);
+
+  final LandscapeDaysResizeMode landscapeDaysResizeMode;
+
+  @override
+  bool updateShouldNotify(DatePickerSettings oldWidget) => false;
+
+  static DatePickerSettings? of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<DatePickerSettings>();
 }
 
 ///  Customizable date picker dialog that uses [CrCalendar] in date pick mode.
@@ -145,10 +184,11 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
             children: [
               if (orientation == Orientation.landscape)
                 Expanded(
-                    child: Align(
-                      alignment: _properties.pickerTitleAlignInLandscape,
-                      child: _buildPickerTitle(),
-                    )),
+                  child: Align(
+                    alignment: _properties.pickerTitleAlignInLandscape,
+                    child: _buildPickerTitle(),
+                  ),
+                ),
               Expanded(
                 flex: 2,
                 child: Column(
@@ -167,43 +207,43 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
                             /// Control bar back button.
                             if (_isCalendarMode)
                               InkWell(
-                                  onTap: () {
-                                    _calendarController.swipeToPreviousPage();
-                                  },
-                                  child: _properties.backButton ??
-                                      const Padding(
-                                          padding: EdgeInsets.all(8),
-                                          child: Icon(
-                                              Icons.arrow_back_ios_outlined))),
+                                onTap: _calendarController.swipeToPreviousPage,
+                                child: _properties.backButton ??
+                                    const Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child:
+                                          Icon(Icons.arrow_back_ios_outlined),
+                                    ),
+                              ),
 
                             /// Control bar title.
                             Expanded(
                               child: InkWell(
-                                  onTap: _toggleYearPicker,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Center(
-                                      child: _properties.controlBarTitleBuilder
-                                              ?.call(_date) ??
-                                          Padding(
-                                            padding: const EdgeInsets.all(8),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  DateFormat('M/yyyy')
-                                                      .format(_date),
-                                                  style: const TextStyle(
-                                                      fontSize: 14),
-                                                ),
-                                                const Icon(
-                                                    Icons.arrow_drop_down),
-                                              ],
-                                            ),
+                                onTap: _toggleYearPicker,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Center(
+                                    child: _properties.controlBarTitleBuilder
+                                            ?.call(_date) ??
+                                        Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                DateFormat('M/yyyy')
+                                                    .format(_date),
+                                                style: const TextStyle(
+                                                    fontSize: 14),
+                                              ),
+                                              const Icon(Icons.arrow_drop_down),
+                                            ],
                                           ),
-                                    ),
-                                  )),
+                                        ),
+                                  ),
+                                ),
+                              ),
                             ),
 
                             /// Control bar forward button.
@@ -214,9 +254,10 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
                                 },
                                 child: _properties.forwardButton ??
                                     const Padding(
-                                        padding: EdgeInsets.all(8),
-                                        child: Icon(
-                                            Icons.arrow_forward_ios_outlined)),
+                                      padding: EdgeInsets.all(8),
+                                      child: Icon(
+                                          Icons.arrow_forward_ios_outlined),
+                                    ),
                               ),
                           ],
                         ),
@@ -230,16 +271,23 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
                         children: [
                           Column(
                             children: [
-                              Expanded(child: _calendarWidget),
+                              Expanded(
+                                child: DatePickerSettings(
+                                  landscapeDaysResizeMode:
+                                      _properties.landscapeDaysResizeMode,
+                                  child: _calendarWidget,
+                                ),
+                              ),
                               Row(
                                 children: [
                                   Expanded(
-                                      child: _properties.cancelButtonBuilder
-                                              ?.call(_cancelButtonPressed) ??
-                                          ElevatedButton(
-                                            onPressed: _cancelButtonPressed,
-                                            child: const Text('Cancel'),
-                                          )),
+                                    child: _properties.cancelButtonBuilder
+                                            ?.call(_cancelButtonPressed) ??
+                                        ElevatedButton(
+                                          onPressed: _cancelButtonPressed,
+                                          child: const Text('Cancel'),
+                                        ),
+                                  ),
                                   const SizedBox(width: 32),
                                   Expanded(
                                     child: _properties.okButtonBuilder?.call(
@@ -262,6 +310,11 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
                               color: _properties.backgroundColor,
                               child: YearPickerWidget(
                                 initialYear: _date.year,
+                                minYear: _properties.minDate?.year ??
+                                    Contract.kMinYear,
+                                maxYear: _properties.maxDate?.year ??
+                                    Contract.kMaxYear,
+                                yearsPerLine: _getYearPerLineCount(),
                                 onYearTap: _goToYear,
                                 yearPickerItemBuilder:
                                     _properties.yearPickerItemBuilder,
@@ -290,18 +343,19 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
       );
 
   Size _calculateConstraints() {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
     final aspectRatio = height / width;
     if (aspectRatio <=
         Contract.kTabletAspectRatioH / Contract.kTabletAspectRatioW) {
       return Size(
-        width * Contract.k60PercentMultiplier,
+        width * Contract.k80PercentMultiplier,
         height * Contract.k80PercentMultiplier,
       );
     } else {
       return Size(
-        width * Contract.k60PercentMultiplier,
+        width * Contract.k80PercentMultiplier,
         height * Contract.k60PercentMultiplier,
       );
     }
@@ -346,6 +400,8 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
       touchMode: _properties.pickerMode ?? TouchMode.rangeSelection,
       weekDaysBuilder: _properties.weekDaysBuilder,
       forceSixWeek: _properties.forceSixWeek,
+      minDate: _properties.minDate,
+      maxDate: _properties.maxDate,
       onSwipeCallbackDebounceMs: 300,
       onRangeSelected: (events, begin, end) {
         _rangeBegin = begin;
@@ -358,5 +414,14 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
         setState(() {});
       },
     );
+  }
+
+  int _getYearPerLineCount() {
+    if (_properties.maxDate == null || _properties.minDate == null) {
+      return Contract.kYearsInLine;
+    }
+    final yearInLine =
+        (_properties.minDate!.year) - (_properties.maxDate!.year);
+    return yearInLine == 0 ? 1 : yearInLine;
   }
 }

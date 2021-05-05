@@ -267,7 +267,6 @@ class _CreateEventDialogState extends State<CreateEventDialog> {
           onPressed: () => onPress?.call(),
           child: const Text('CANCEL'),
         ),
-        // firstWeekDay: WeekDays.monday,
       ),
     );
   }

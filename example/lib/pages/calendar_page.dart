@@ -87,7 +87,7 @@ class _CalendarPageState extends State<CalendarPage> {
           /// Calendar view.
           Expanded(
             child: CrCalendar(
-              firstDayOfWeek: WeekDays.monday,
+              firstDayOfWeek: WeekDay.monday,
               eventsTopPadding: 32,
               initialDate: _currentDate,
               maxEventLines: 3,
@@ -98,6 +98,8 @@ class _CalendarPageState extends State<CalendarPage> {
               weekDaysBuilder: (day) => WeekDaysWidget(day: day),
               eventBuilder: (drawer) => EventWidget(drawer: drawer),
               onDayClicked: _showDayEventsInModalSheet,
+              minDate: DateTime.now().subtract(const Duration(days: 1000)),
+              maxDate: DateTime.now().add(const Duration(days: 180)),
             ),
           ),
         ],
@@ -176,7 +178,8 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  void _showDayEventsInModalSheet(List<CalendarEventModel> events, DateTime day) {
+  void _showDayEventsInModalSheet(
+      List<CalendarEventModel> events, DateTime day) {
     showModalBottomSheet(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(8))),
