@@ -30,7 +30,6 @@ class _MyAppState extends State<MyApp> {
               color: violet,
               fontSize: 16,
               fontWeight: FontWeight.w500,
-
             ),
             primary: violet,
             shape: const RoundedRectangleBorder(

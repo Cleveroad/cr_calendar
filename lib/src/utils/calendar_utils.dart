@@ -11,11 +11,11 @@ Jiffy mapWeekDayAndRowToDate(Jiffy beginRange, int dayOfWeek, int row) {
 }
 
 /// Sort days enum based on first day in week passed to [CrCalendar].
-List<WeekDays> sortWeekdays(WeekDays fistDayInWeek) {
-  if (fistDayInWeek == WeekDays.sunday) {
-    return WeekDays.values;
+List<WeekDay> sortWeekdays(WeekDay fistDayInWeek) {
+  if (fistDayInWeek == WeekDay.sunday) {
+    return WeekDay.values;
   } else {
-    const days = WeekDays.values;
+    const days = WeekDay.values;
     final index = fistDayInWeek.index;
     final sorted = days.sublist(index)..addAll(days.sublist(0, index));
     return sorted;

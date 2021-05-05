@@ -9,13 +9,16 @@ import 'package:cr_calendar/src/models/drawers.dart';
 import 'package:cr_calendar/src/models/event_count_keeper.dart';
 import 'package:cr_calendar/src/month_calendar_widget.dart';
 import 'package:cr_calendar/src/utils/event_utils.dart';
+import 'package:cr_calendar/src/widgets/default_weekday_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jiffy/jiffy.dart';
 
+import '../cr_calendar.dart';
 import 'cr_calendar.dart';
+import 'cr_date_picker_dialog.dart';
 
 /// Calendar page
 class MonthItem extends StatefulWidget {
@@ -23,18 +26,17 @@ class MonthItem extends StatefulWidget {
     required this.controller,
     required this.displayMonth,
     required this.maxEventLines,
-    required this.weekDaysBuilder,
+    this.weekDaysBuilder,
     this.currentDay,
     this.onDaySelected,
     this.dayItemBuilder,
     this.forceSixWeek = false,
-    this.dayItemMargin = const EdgeInsets.symmetric(),
     this.eventBuilder,
     this.onRangeSelected,
     this.touchMode = TouchMode.singleTap,
     this.eventTopPadding = 0,
     this.onDayTap,
-    this.firstWeekDay = WeekDays.sunday,
+    this.firstWeekDay = WeekDay.sunday,
     Key? key,
   }) : super(key: key);
 
@@ -43,16 +45,15 @@ class MonthItem extends StatefulWidget {
   final Function(List<CalendarEventModel>, Jiffy)? onDaySelected;
   final Function(List<CalendarEventModel>)? onRangeSelected;
   final Function(Jiffy)? onDayTap;
-  final WeekDaysBuilder weekDaysBuilder;
+  final WeekDaysBuilder? weekDaysBuilder;
   final DayItemBuilder? dayItemBuilder;
   final bool forceSixWeek;
-  final EdgeInsets dayItemMargin;
   final EventBuilder? eventBuilder;
   final CrCalendarController controller;
   final DateTime displayMonth;
   final double? eventTopPadding;
   final TouchMode touchMode;
-  final WeekDays firstWeekDay;
+  final WeekDay firstWeekDay;
 
   @override
   MonthItemState createState() => MonthItemState();
@@ -97,14 +98,14 @@ class MonthItemState extends State<MonthItem> {
         DateTime.utc(widget.displayMonth.year, widget.displayMonth.month)
             .toJiffy();
     _beginOffset = (widget.firstWeekDay.index > display.day - 1)
-        ? display.day - 1 + (WeekDays.values.length - widget.firstWeekDay.index)
+        ? display.day - 1 + (WeekDay.values.length - widget.firstWeekDay.index)
         : display.day - 1 - widget.firstWeekDay.index;
     _daysInMonth = display.daysInMonth;
     _beginRange = Jiffy(Jiffy(display).subtract(days: _beginOffset));
     _endRange = Jiffy(Jiffy(display).add(days: _daysInMonth - 1));
-    if (_endRange.day != WeekDays.sunday.index + 1) {
+    if (_endRange.day != WeekDay.sunday.index + 1) {
       _endRange.add(
-          days: WeekDays.values.length -
+          days: WeekDay.values.length -
               _endRange.day +
               widget.firstWeekDay.index);
     }
@@ -147,7 +148,6 @@ class MonthItemState extends State<MonthItem> {
                                 IgnorePointer(
                                   child: EventsOverlay(
                                     eventBuilder: widget.eventBuilder,
-                                    padding: widget.dayItemMargin,
                                     maxLines: widget.maxEventLines,
                                     topPadding: widget.eventTopPadding ??
                                         (itemHeight /
@@ -175,12 +175,19 @@ class MonthItemState extends State<MonthItem> {
   void _updateState() => setState(() {});
 
   Size _getConstrainedSize(BoxConstraints constraint) {
-    final itemWidth = constraint.maxWidth / WeekDays.values.length;
+    final itemWidth = constraint.maxWidth / WeekDay.values.length;
     double itemHeight;
     if ((constraint.maxHeight / Contract.kMaxWeekPerMoth) > itemWidth) {
       itemHeight = constraint.maxHeight / Contract.kMaxWeekPerMoth;
     } else {
-      itemHeight = itemWidth;
+      final isAdaptive =
+          DatePickerSettings.of(context)?.landscapeDaysResizeMode ==
+              LandscapeDaysResizeMode.adaptive;
+      if (isAdaptive) {
+        itemHeight = constraint.maxHeight / Contract.kMaxWeekPerMoth;
+      } else {
+        itemHeight = itemWidth;
+      }
     }
     return Size(itemWidth, itemHeight);
   }
@@ -191,7 +198,6 @@ class MonthItemState extends State<MonthItem> {
     return MonthCalendarWidget(
       controller: widget.controller,
       key: _monthKey,
-      dayItemMargin: widget.dayItemMargin,
       itemWidth: itemWidth,
       itemHeight: itemHeight,
       currentDay: widget.currentDay,
@@ -211,9 +217,10 @@ class MonthItemState extends State<MonthItem> {
 
   /// Returns list of week days representation
   List<Widget> _getDaysOfWeek() {
-    final week = List<Widget>.generate(WeekDays.values.length, (index) {
+    final week = List<Widget>.generate(WeekDay.values.length, (index) {
       final sortedWeekDays = sortWeekdays(widget.firstWeekDay);
-      return widget.weekDaysBuilder(sortedWeekDays[index]);
+      return widget.weekDaysBuilder?.call(sortedWeekDays[index]) ??
+          DefaultWeekdayWidget(day: sortedWeekDays[index]);
     });
     return week;
   }

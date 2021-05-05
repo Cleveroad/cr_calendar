@@ -35,12 +35,13 @@ Then import it to your project:
 |bool|forceSixWeek|Force calendar to display sixth row in month view even if this week is not in current month.|false|
 |Color|backgroundColor|Background color of the calendar|-|
 |int|maxEventLines|Number of events widgets to be displayed over day item cell|4|
-|EdgeInsets|dayItemMargin|Day item margin. Can only be horizontal.|EdgeInsets.symmetric(horizontal: 0)|
 |EventBuilder|eventBuilder|Event widget builder|-|
 |TouchMode|touchMode|Touch mode of calendar.|-|
-|double|eventsTopPadding|Padding over events widgets to for correction of their aligment.|-|
+|double|eventsTopPadding|Padding over events widgets to for correction of their alignment.|-|
 |OnRangeSelectedCallback|onRangeSelected|Callback for receiving selected range when calendar is used as date picker.|-|
 |int|onSwipeCallbackDebounceMs|Time in milliseconds for debounce CrCalendarController onSwipe callback.|-|
+|DateTime|minDate|Earliest allowable date.|-|
+|DateTime|maxDate|Latest allowable date.|-|
 
 #### Base usage:
 ```dart
@@ -57,8 +58,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         body: CrCalendar(
-          month: 5,
-          year: 1999,
+          initialDate: DateTime.now(),
           controller: _controller,
         ),
       ),
@@ -88,7 +88,9 @@ class _MyAppState extends State<MyApp> {
 |PickerButtonBuilder|cancelButtonBuilder|Builder for cancel button.|-|
 |bool|forceSixWeek|Force showing six week rows in month view.|false|
 |WeekDays|firstWeekDay|First day of date picker calendar.|WeekDays.sunday|
-
+|DateTime|minDate|Earliest allowable date.|-|
+|DateTime|maxDate|Latest allowable date.|-|
+|LandscapeDaysResizeMode|landscapeDaysResizeMode|LandscapeDaysResizeMode.adaptive - days cells will change their height according to parent height LandscapeDaysResizeMode.scrollable - days cells will change their height according to parent height as long as it is larger than the cells width. The month scrolls if there is not enough space|LandscapeDaysResizeMode.adaptive|
 
 #### Base usage:
 ```dart

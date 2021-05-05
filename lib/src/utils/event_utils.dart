@@ -79,14 +79,14 @@ EventProperties? _mapSimpleEventToDrawerOrNull(
   if (jBegin.isSameOrAfter(begin)) {
     beginDay = (begin.day - jBegin.day < 1)
         ? 1 - (begin.day - jBegin.day)
-        : 1 - (begin.day - jBegin.day) + WeekDays.values.length;
+        : 1 - (begin.day - jBegin.day) + WeekDay.values.length;
   }
 
   var endDay = Contract.kWeekDaysCount;
   if (jEnd.isSameOrBefore(end)) {
     endDay = (begin.day - jEnd.day < 1)
         ? 1 - (begin.day - jEnd.day)
-        : 1 - (begin.day - jEnd.day) + WeekDays.values.length;
+        : 1 - (begin.day - jEnd.day) + WeekDay.values.length;
   }
 
   return EventProperties(
@@ -128,7 +128,7 @@ List<NotFittedWeekEventCount> calculateOverflowedEvents(
     List<List<EventProperties>> monthEvents, int maxLines) {
   final weeks = <NotFittedWeekEventCount>[];
   for (final week in monthEvents) {
-    var countList = List.filled(WeekDays.values.length, 0);
+    var countList = List.filled(WeekDay.values.length, 0);
 
     for (final event in week) {
       for (var i = event.begin - 1; i < event.end; i++) {

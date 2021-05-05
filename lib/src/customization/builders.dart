@@ -5,7 +5,7 @@ import '../models/drawers.dart';
 import 'day_item_properties.dart';
 
 /// Builder for customization week days row at top of the calendar widget.
-typedef WeekDaysBuilder = Widget Function(WeekDays day);
+typedef WeekDaysBuilder = Widget Function(WeekDay day);
 
 /// Builder for customization of days cells.
 typedef DayItemBuilder = Widget Function(DayItemProperties properties);

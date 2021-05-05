@@ -1,16 +1,14 @@
-import 'package:cr_calendar/cr_calendar.dart';
-import 'package:cr_calendar_example/res/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// Widget that represents week days in row above calendar month view.
-class WeekDaysWidget extends StatelessWidget {
-  const WeekDaysWidget({
+import '../cr_calendar.dart';
+
+class DefaultWeekdayWidget extends StatelessWidget {
+  const DefaultWeekdayWidget({
     required this.day,
     Key? key,
   }) : super(key: key);
 
-  /// [WeekDay] value from [WeekDaysBuilder].
   final WeekDay day;
 
   @override
@@ -20,9 +18,6 @@ class WeekDaysWidget extends StatelessWidget {
       child: Center(
         child: Text(
           describeEnum(day).substring(0, 1).toUpperCase(),
-          style: TextStyle(
-            color: violet.withOpacity(0.9),
-          ),
         ),
       ),
     );

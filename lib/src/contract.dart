@@ -13,4 +13,10 @@ class Contract {
   static const kDialogPadding = 10.0;
 
   static const kDefaultAnimationDurationMs = 300;
+
+  static const kMinYear = 1900;
+  static const kMaxYear = 2100;
+  static const kYearsInLine = 3;
+
+  static const kDefaultInitialPage = 4000;
 }

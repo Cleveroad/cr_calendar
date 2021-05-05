@@ -12,7 +12,7 @@ import 'package:jiffy/jiffy.dart';
 import 'models/date_range.dart';
 
 ///Week days representation.
-enum WeekDays {
+enum WeekDay {
   sunday,
   monday,
   tuesday,
@@ -40,8 +40,6 @@ typedef OnRangeSelectedCallback = Function(
     List<CalendarEventModel> events, DateTime? begin, DateTime? end);
 
 typedef OnDateSelectCallback = Function(DateTime selectedDate);
-
-int _initialPage = 4000;
 
 /// Controller for [CrCalendar].
 class CrCalendarController extends ChangeNotifier {
@@ -72,15 +70,19 @@ class CrCalendarController extends ChangeNotifier {
   DateRangeModel selectedRange = DateRangeModel();
 
   /// Current calendar view page.
-  int page = _initialPage;
+  int page = Contract.kDefaultInitialPage;
 
-  final PageController _controller =
-      PageController(initialPage: _initialPage, keepPage: false);
+  int _initialPage = Contract.kDefaultInitialPage;
+
+  int _maxPage = Contract.kDefaultInitialPage * 2;
+
+  PageController _controller = PageController(
+      initialPage: Contract.kDefaultInitialPage, keepPage: false);
 
   /// Need to update PageController initial page in case calendar widget was
   /// recreated when we were on other page.
   PageController _getUpdatedPageController() {
-    return PageController(initialPage: page, keepPage: false);
+    return _controller = PageController(initialPage: page, keepPage: false);
   }
 
   final _doShowEvents = ValueNotifier<bool>(false);
@@ -112,18 +114,20 @@ class CrCalendarController extends ChangeNotifier {
   /// Swipe to the next month page.
   void swipeToNextMonth([Duration? animationDuration, Curve? curve]) {
     final targetPage = page + 1;
-    _controller.animateToPage(
-      targetPage,
-      duration: animationDuration ??
-          const Duration(milliseconds: Contract.kDefaultAnimationDurationMs),
-      curve: curve ?? Curves.linear,
-    );
+    if (targetPage <= _maxPage) {
+      _controller.animateToPage(
+        targetPage,
+        duration: animationDuration ??
+            const Duration(milliseconds: Contract.kDefaultAnimationDurationMs),
+        curve: curve ?? Curves.linear,
+      );
+    }
   }
 
   /// Swipe to the previous month page.
   void swipeToPreviousPage([Duration? animationDuration, Curve? curve]) {
     final targetPage = page - 1;
-    if (targetPage > 0) {
+    if (targetPage >= 0) {
       _controller.animateToPage(
         targetPage,
         duration: animationDuration ??
@@ -200,30 +204,37 @@ class CrCalendar extends StatefulWidget {
   CrCalendar({
     required this.controller,
     required this.initialDate,
-    required this.weekDaysBuilder,
+    this.weekDaysBuilder,
     this.onDayClicked,
-    this.firstDayOfWeek = WeekDays.sunday,
+    this.firstDayOfWeek = WeekDay.sunday,
     this.dayItemBuilder,
     this.forceSixWeek = false,
     this.maxEventLines = 4,
     this.backgroundColor,
-    this.dayItemMargin = const EdgeInsets.symmetric(),
     this.eventBuilder,
     this.touchMode = TouchMode.singleTap,
     this.eventsTopPadding = 12.0,
     this.onRangeSelected,
     this.onSwipeCallbackDebounceMs = 100,
+    this.minDate,
+    this.maxDate,
     Key? key,
   })  : assert(maxEventLines <= 6, 'maxEventLines should be less then 6'),
-        assert(dayItemMargin.top == 0 && dayItemMargin.bottom == 0,
-            'dayItemMargin must be greater then 0'),
+        assert(minDate == null || maxDate == null || minDate.isBefore(maxDate),
+            'minDate should be before maxDate'),
         super(key: key);
+
+  /// The minimum date until which the calendar can scroll
+  final DateTime? minDate;
+
+  /// The maximum date until which the calendar can scroll
+  final DateTime? maxDate;
 
   /// Calendar controller.
   final CrCalendarController controller;
 
-  /// Start day of the week. Default is [WeekDays.sunday].
-  final WeekDays firstDayOfWeek;
+  /// Start day of the week. Default is [WeekDay.sunday].
+  final WeekDay firstDayOfWeek;
 
   /// Number of events widgets to be displayed over day item cell.
   ///
@@ -239,7 +250,7 @@ class CrCalendar extends StatefulWidget {
   final OnTapCallback? onDayClicked;
 
   /// See [WeekDaysBuilder].
-  final WeekDaysBuilder weekDaysBuilder;
+  final WeekDaysBuilder? weekDaysBuilder;
 
   /// See [DayItemBuilder].
   final DayItemBuilder? dayItemBuilder;
@@ -250,9 +261,6 @@ class CrCalendar extends StatefulWidget {
 
   /// Background color of calendar.
   final Color? backgroundColor;
-
-  /// Day item margin. Can only be horizontal.
-  final EdgeInsets dayItemMargin;
 
   /// See [EventBuilder].
   final EventBuilder? eventBuilder;
@@ -282,15 +290,18 @@ class _CrCalendarState extends State<CrCalendar> {
 
   late DateTime _initialDate;
 
+  final _minPage = 1;
+
   @override
   void initState() {
+    super.initState();
     final date = widget.initialDate;
     widget.controller.date = date;
     widget.controller.addListener(_redraw);
+    calculateBoundaries();
     _initialDate = date;
     _recalculateDisplayMonth(0);
     _onSwipeDebounce = Debounce(widget.onSwipeCallbackDebounceMs);
-    super.initState();
   }
 
   @override
@@ -305,10 +316,10 @@ class _CrCalendarState extends State<CrCalendar> {
     return OrientationBuilder(
       builder: (BuildContext context, Orientation orientation) {
         return PageView.builder(
-          itemCount: widget.controller.page * 2,
+          itemCount: _minPage + widget.controller._maxPage,
           controller: widget.controller._getUpdatedPageController(),
           itemBuilder: (context, index) {
-            final offset = index - _initialPage;
+            final offset = index - widget.controller._initialPage;
             final month = Jiffy(_initialDate).add(months: offset).dateTime;
             return Container(
               color: widget.backgroundColor,
@@ -317,7 +328,6 @@ class _CrCalendarState extends State<CrCalendar> {
                 displayMonth: month,
                 controller: widget.controller,
                 eventBuilder: widget.eventBuilder,
-                dayItemMargin: widget.dayItemMargin,
                 maxEventLines: widget.maxEventLines,
                 forceSixWeek: widget.forceSixWeek,
                 currentDay: _returnCurrentDayForDateOrNull(month),
@@ -366,7 +376,7 @@ class _CrCalendarState extends State<CrCalendar> {
   void _pageChanged(int page) {
     _onSwipeDebounce.run(() {
       widget.controller.page = page;
-      final offset = page - _initialPage;
+      final offset = page - widget.controller._initialPage;
       _recalculateDisplayMonth(offset);
       final date = Jiffy([widget.initialDate.year, widget.initialDate.month])
           .add(months: offset)
@@ -401,4 +411,25 @@ class _CrCalendarState extends State<CrCalendar> {
   }
 
   void _redraw() => setState(() {});
+
+  void calculateBoundaries() {
+    final initialMoth =
+        DateTime(widget.initialDate.year, widget.initialDate.month);
+    if (widget.minDate != null) {
+      final minMonth = DateTime(widget.minDate!.year, widget.minDate!.month);
+      widget.controller._initialPage = Jiffy(initialMoth)
+          .diff(
+            minMonth,
+            Units.MONTH,
+          )
+          .toInt();
+      widget.controller.page = widget.controller._initialPage;
+    }
+    if (widget.maxDate != null) {
+      final maxMonth = DateTime(widget.maxDate!.year, widget.maxDate!.month);
+      widget.controller._maxPage =
+          Jiffy(initialMoth).diff(maxMonth, Units.MONTH).toInt().abs() +
+              widget.controller.page;
+    }
+  }
 }

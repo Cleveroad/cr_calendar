@@ -62,8 +62,7 @@ class _YearPickerWidgetState extends State<YearPickerWidget> {
       builder: (context, constraints) => ScrollablePositionedList.builder(
         initialScrollIndex:
             (widget.initialYear - widget.minYear) ~/ widget.yearsPerLine,
-        itemCount:
-            ((widget.maxYear - widget.minYear) / widget.yearsPerLine).ceil(),
+        itemCount: _getItemCount(),
         itemScrollController: _itemScrollController,
         itemPositionsListener: _itemPositionsListener,
         itemBuilder: (context, index) {
@@ -111,9 +110,7 @@ class _YearPickerWidgetState extends State<YearPickerWidget> {
   }
 
   Border? _getItemBorder(int year) {
-    return year == DateTime.now().year
-        ? Border.all(color: Colors.green)
-        : null;
+    return year == DateTime.now().year ? Border.all(color: Colors.green) : null;
   }
 
   Color? _getItemColor(int year) {
@@ -126,5 +123,11 @@ class _YearPickerWidgetState extends State<YearPickerWidget> {
       return true;
     }
     return false;
+  }
+
+  int _getItemCount() {
+    final count =
+        ((widget.maxYear - widget.minYear) / widget.yearsPerLine).ceil();
+    return count == 0 ? 1 : count;
   }
 }
