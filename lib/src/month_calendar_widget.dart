@@ -191,7 +191,7 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
                   isFirstInRange: _isDateFirstRange(index),
                   isLastInRange: _isDateLastRange(index)))
               : DayItem(
-                  isCurrentDay: day.first == widget.currentDay,
+                  isCurrentDay: day.first == widget.currentDay && day.second,
                   day: day.first,
                   isWithinMonth: day.second,
                   isWithinRange: _isDateInRange(index),
