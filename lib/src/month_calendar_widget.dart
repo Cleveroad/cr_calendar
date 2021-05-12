@@ -103,8 +103,7 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
   bool _isDateInRange(int index) {
     final indices = _selectedRangeIndices;
     if (indices != null) {
-      return index >= indices.first &&
-          index <= indices.second;
+      return index >= indices.first && index <= indices.second;
     }
     return false;
   }
@@ -119,9 +118,7 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
     if (selectedDay != null) {
       if (selectedDay.isSameOrAfter(widget.begin) &&
           selectedDay.isSameOrBefore(widget.end)) {
-        if (Jiffy(widget.begin)
-            .add(days: index)
-            .isSame(selectedDay)) {
+        if (Jiffy(widget.begin).add(days: index).isSame(selectedDay)) {
           return true;
         }
       }
@@ -191,7 +188,7 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
                   isFirstInRange: _isDateFirstRange(index),
                   isLastInRange: _isDateLastRange(index)))
               : DayItem(
-                  isCurrentDay: day.first == widget.currentDay,
+                  isCurrentDay: day.first == widget.currentDay && day.second,
                   day: day.first,
                   isWithinMonth: day.second,
                   isWithinRange: _isDateInRange(index),

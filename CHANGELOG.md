@@ -1,3 +1,7 @@
+# 0.0.8
+
+- fixed current day when using calendar default design
+
 # 0.0.7
 
 - fixed issue with page controller. Added minDate and maxDate properties for date picker and cr calendar
