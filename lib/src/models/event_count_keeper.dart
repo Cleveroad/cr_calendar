@@ -8,5 +8,4 @@ class NotFittedWeekEventCount {
 /// Keeps non-fitted event count for month page
 class NotFittedPageEventCount {
   List<NotFittedWeekEventCount> weeks = [];
-
 }

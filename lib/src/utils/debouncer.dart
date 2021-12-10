@@ -12,6 +12,7 @@ class Debounce {
     dispose();
     _timer = Timer(Duration(milliseconds: milliseconds), action);
   }
+
   void dispose() {
     _timer?.cancel();
   }
