@@ -1,3 +1,7 @@
+# 0.0.9
+
+- static analysis fixes
+
 # 0.0.8
 
 - fixed current day when using calendar default design

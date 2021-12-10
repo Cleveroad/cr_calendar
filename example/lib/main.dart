@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
         floatingActionButtonTheme:
             const FloatingActionButtonThemeData(backgroundColor: violet),
         primaryColor: violet,
-        accentColor: violet,
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: violet),
         iconTheme: const IconThemeData(color: violet),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(

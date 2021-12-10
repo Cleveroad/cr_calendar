@@ -1,11 +1,11 @@
 import 'package:cr_calendar/src/contract.dart';
 import 'package:cr_calendar/src/cr_calendar.dart';
-import 'package:cr_calendar/src/models/drawers.dart';
+import 'package:cr_calendar/src/extensions/datetime_ext.dart';
+import 'package:cr_calendar/src/extensions/jiffy_ext.dart';
 import 'package:cr_calendar/src/models/calendar_event_model.dart';
+import 'package:cr_calendar/src/models/drawers.dart';
 import 'package:cr_calendar/src/models/event_count_keeper.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:cr_calendar/src/extensions/jiffy_ext.dart';
-import 'package:cr_calendar/src/extensions/datetime_ext.dart';
 
 import '../models/drawers.dart';
 
@@ -52,8 +52,7 @@ List<EventProperties> resolveEventDrawersForWeek(
   final drawers = <EventProperties>[];
 
   final beginDate = Jiffy(monthStart).add(weeks: week);
-  final endDate =
-      Jiffy(beginDate).add(days: Contract.kWeekDaysCount - 1);
+  final endDate = Jiffy(beginDate).add(days: Contract.kWeekDaysCount - 1);
 
   for (final e in events) {
     final simpleEvent = _mapSimpleEventToDrawerOrNull(e, beginDate, endDate);

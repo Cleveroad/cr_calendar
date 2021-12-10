@@ -45,7 +45,8 @@ class DayItemWidget extends StatelessWidget {
               child: Text('+${properties.notFittedEventsCount}',
                   style: TextStyle(
                       fontSize: 10,
-                      color: violet.withOpacity(properties.isInMonth ? 1 : 0.5))),
+                      color:
+                          violet.withOpacity(properties.isInMonth ? 1 : 0.5))),
             ),
         ],
       ),
