@@ -1,19 +1,15 @@
 import 'dart:core';
 
 import 'package:cr_calendar/src/contract.dart';
-import 'package:cr_calendar/src/cr_calendar.dart';
-import 'package:cr_calendar/src/customization/builders.dart';
 import 'package:cr_calendar/src/extensions/datetime_ext.dart';
 import 'package:cr_calendar/src/models/event_count_keeper.dart';
 import 'package:cr_calendar/src/utils/event_utils.dart';
-import 'package:cr_calendar/src/widgets/day_item.dart';
 import 'package:cr_calendar/src/widgets/day_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 
 import '../cr_calendar.dart';
 import '../src/internal/pair.dart';
-import '../src/models/calendar_event_model.dart';
 
 /// Calendar days grid
 class MonthCalendarWidget extends StatefulWidget {

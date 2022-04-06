@@ -1,9 +1,6 @@
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:flutter/material.dart';
 
-import '../models/drawers.dart';
-import 'day_item_properties.dart';
-
 /// Builder for customization week days row at top of the calendar widget.
 typedef WeekDaysBuilder = Widget Function(WeekDay day);
 

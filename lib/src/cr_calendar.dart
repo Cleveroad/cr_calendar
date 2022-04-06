@@ -5,7 +5,6 @@ import 'package:cr_calendar/src/models/calendar_event_model.dart';
 import 'package:cr_calendar/src/month_item.dart';
 import 'package:cr_calendar/src/utils/debouncer.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -392,6 +391,7 @@ class _CrCalendarState extends State<CrCalendar> {
     if (display.year == now.year && display.month == now.month) {
       return now.day;
     }
+    return null;
   }
 
   /// Scrolls to previous or next month if selected day isn't in current month

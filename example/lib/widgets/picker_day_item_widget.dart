@@ -1,6 +1,5 @@
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:cr_calendar_example/res/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Widget of day item cell for range picker.
