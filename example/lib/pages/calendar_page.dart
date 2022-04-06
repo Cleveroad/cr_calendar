@@ -7,7 +7,6 @@ import 'package:cr_calendar_example/widgets/day_events_bottom_sheet.dart';
 import 'package:cr_calendar_example/widgets/day_item_widget.dart';
 import 'package:cr_calendar_example/widgets/event_widget.dart';
 import 'package:cr_calendar_example/widgets/week_days_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Main calendar page.

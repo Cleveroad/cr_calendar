@@ -1,6 +1,6 @@
 name: cr_calendar
 description: Awesome calendar with customizations, range picking and event showing.
-version: 0.0.9
+version: 0.0.10
 homepage: https://cleveroad.com
 repository: https://github.com/Cleveroad/cr_calendar
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
 
   intl: ^0.17.0
-  jiffy: ^4.1.0
+  jiffy: ^5.0.0
   scrollable_positioned_list: ^0.2.3
 
 dev_dependencies:

@@ -67,10 +67,22 @@ List<EventProperties> resolveEventDrawersForWeek(
 /// This method maps CalendarEventItem to EventDrawer and calculates drawer begin and end
 EventProperties? _mapSimpleEventToDrawerOrNull(
     CalendarEventModel event, Jiffy begin, Jiffy end) {
-  final jBegin = event.begin.toJiffy();
-  final jEnd = event.end.toJiffy();
+  final jBegin = DateTime.utc(
+    event.begin.year,
+    event.begin.month,
+    event.begin.day,
+    event.begin.hour,
+    event.begin.minute,
+  ).toJiffy();
+  final jEnd = DateTime.utc(
+    event.end.year,
+    event.end.month,
+    event.end.day,
+    event.end.hour,
+    event.end.minute,
+  ).toJiffy();
 
-  if (jEnd.isBefore(begin) || jBegin.isAfter(end)) {
+  if (jEnd.isBefore(begin, Units.DAY) || jBegin.isAfter(end, Units.DAY)) {
     return null;
   }
 

@@ -1,23 +1,16 @@
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:cr_calendar/src/contract.dart';
-import 'package:cr_calendar/src/cr_calendar.dart';
-import 'package:cr_calendar/src/customization/builders.dart';
 import 'package:cr_calendar/src/events_overlay.dart';
 import 'package:cr_calendar/src/extensions/datetime_ext.dart';
-import 'package:cr_calendar/src/models/calendar_event_model.dart';
-import 'package:cr_calendar/src/models/drawers.dart';
 import 'package:cr_calendar/src/models/event_count_keeper.dart';
 import 'package:cr_calendar/src/month_calendar_widget.dart';
 import 'package:cr_calendar/src/utils/event_utils.dart';
 import 'package:cr_calendar/src/widgets/default_weekday_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:jiffy/jiffy.dart';
 
 import '../cr_calendar.dart';
-import 'cr_calendar.dart';
 import 'cr_date_picker_dialog.dart';
 
 /// Calendar page

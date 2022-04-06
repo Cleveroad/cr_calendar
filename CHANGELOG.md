@@ -1,3 +1,7 @@
+# 0.0.10
+
+- Fixed [issue](https://github.com/Cleveroad/cr_calendar/issues/7)
+
 # 0.0.9
 
 - static analysis fixes

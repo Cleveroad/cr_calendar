@@ -1,4 +1,3 @@
-import 'package:cr_calendar/src/cr_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 

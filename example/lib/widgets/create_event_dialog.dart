@@ -5,7 +5,6 @@ import 'package:cr_calendar_example/utills/extensions.dart';
 import 'package:cr_calendar_example/widgets/date_picker_title_widget.dart';
 import 'package:cr_calendar_example/widgets/picker_day_item_widget.dart';
 import 'package:cr_calendar_example/widgets/week_days_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

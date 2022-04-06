@@ -1,9 +1,7 @@
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:cr_calendar_example/utills/constants.dart';
 import 'package:cr_calendar_example/utills/extensions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// Draggable bottom sheet with events for the day.
 class DayEventsBottomSheet extends StatelessWidget {
