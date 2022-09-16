@@ -10,8 +10,8 @@ class DayItem extends StatelessWidget {
     this.isWithinMonth = true,
     this.nonFitEventCount = 0,
     this.isWithinRange = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget? child;
   final int day;

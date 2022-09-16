@@ -29,8 +29,8 @@ class MonthCalendarWidget extends StatefulWidget {
     this.currentDay,
     this.dayItemBuilder,
     this.onDayTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DayItemBuilder? dayItemBuilder;
   final int? currentDay;

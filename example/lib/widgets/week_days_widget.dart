@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 class WeekDaysWidget extends StatelessWidget {
   const WeekDaysWidget({
     required this.day,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// [WeekDay] value from [WeekDaysBuilder].
   final WeekDay day;

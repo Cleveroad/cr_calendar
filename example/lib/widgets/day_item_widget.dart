@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 class DayItemWidget extends StatelessWidget {
   const DayItemWidget({
     required this.properties,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DayItemProperties properties;
 

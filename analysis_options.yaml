@@ -145,6 +145,7 @@ linter:
     - use_string_buffers # DO use string buffers to compose strings.
     - use_to_and_as_if_applicable # PREFER naming a method to___() if it copies the object's state to a new object.
     - void_checks # DO NOT assign to void.
+    - use_super_parameters # Use super-initializer parameters where possible.
 
     # Error rules.
     # - always_use_package_imports # DO avoid relative imports for files in lib/. # Doesn't work.
@@ -203,4 +204,3 @@ analyzer:
     - 'assets/**'
     # Modules
     - 'lib/cr_logger/**'
-    - 'flutter_nordic_dfu/**'

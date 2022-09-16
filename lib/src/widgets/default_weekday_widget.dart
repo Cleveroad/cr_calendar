@@ -6,8 +6,8 @@ import '../cr_calendar.dart';
 class DefaultWeekdayWidget extends StatelessWidget {
   const DefaultWeekdayWidget({
     required this.day,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final WeekDay day;
 

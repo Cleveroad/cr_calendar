@@ -9,8 +9,8 @@ class DayEventsBottomSheet extends StatelessWidget {
     required this.screenHeight,
     required this.events,
     required this.day,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<CalendarEventModel> events;
   final DateTime day;
