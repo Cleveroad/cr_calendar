@@ -7,8 +7,8 @@ class DayItemWidget extends StatelessWidget {
     this.body,
     this.dayItemMargin,
     this.width,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget? body;
   final EdgeInsets? dayItemMargin;

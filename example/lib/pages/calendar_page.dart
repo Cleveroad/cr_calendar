@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 /// Main calendar page.
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({Key? key}) : super(key: key);
+  const CalendarPage({super.key});
 
   @override
   _CalendarPageState createState() => _CalendarPageState();

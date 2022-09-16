@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 class DatePickerTitle extends StatelessWidget {
   const DatePickerTitle({
     required this.date,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DateTime date;
 

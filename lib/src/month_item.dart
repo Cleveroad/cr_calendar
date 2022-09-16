@@ -30,8 +30,8 @@ class MonthItem extends StatefulWidget {
     this.eventTopPadding = 0,
     this.onDayTap,
     this.firstWeekDay = WeekDay.sunday,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final int maxEventLines;
   final int? currentDay;

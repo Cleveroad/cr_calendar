@@ -15,8 +15,8 @@ class EventsOverlay extends StatelessWidget {
     required this.maxLines,
     this.padding,
     this.eventBuilder,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<WeekDrawer> weekList;
   final Jiffy begin;

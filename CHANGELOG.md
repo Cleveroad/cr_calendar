@@ -1,3 +1,9 @@
+# 1.0.0
+
+- Support for Flutter 3.0.0
+- Updated dependencies
+- Removed pedantic from example
+
 # 0.0.10
 
 - Fixed [issue](https://github.com/Cleveroad/cr_calendar/issues/7)

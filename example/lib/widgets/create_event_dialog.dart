@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 
 /// Pop up dialog for event creation.
 class CreateEventDialog extends StatefulWidget {
-  const CreateEventDialog({Key? key}) : super(key: key);
+  const CreateEventDialog({super.key});
 
   @override
   _CreateEventDialogState createState() => _CreateEventDialogState();

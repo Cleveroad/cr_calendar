@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 class PickerDayItemWidget extends StatelessWidget {
   const PickerDayItemWidget({
     required this.properties,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final DayItemProperties properties;
 

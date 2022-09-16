@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 class EventWidget extends StatelessWidget {
   const EventWidget({
     required this.drawer,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final EventProperties drawer;
 

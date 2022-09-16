@@ -217,11 +217,10 @@ class CrCalendar extends StatefulWidget {
     this.onSwipeCallbackDebounceMs = 100,
     this.minDate,
     this.maxDate,
-    Key? key,
+    super.key,
   })  : assert(maxEventLines <= 6, 'maxEventLines should be less then 6'),
         assert(minDate == null || maxDate == null || minDate.isBefore(maxDate),
-            'minDate should be before maxDate'),
-        super(key: key);
+            'minDate should be before maxDate');
 
   /// The minimum date until which the calendar can scroll
   final DateTime? minDate;

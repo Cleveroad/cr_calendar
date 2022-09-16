@@ -13,8 +13,8 @@ class WeekEventsWidget extends StatelessWidget {
     this.row = 0,
     this.eventBuilder,
     EdgeInsets? padding,
-    Key? key,
-  }) : super(key: key) {
+    super.key,
+  }) {
     this.padding = padding ?? EdgeInsets.zero;
   }
 

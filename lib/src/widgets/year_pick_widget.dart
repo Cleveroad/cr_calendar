@@ -15,8 +15,8 @@ class YearPickerWidget extends StatefulWidget {
     this.onYearTap,
     this.yearPickerItemBuilder,
     this.yearItemHeight = 75,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Initial selected year.
   final int initialYear;

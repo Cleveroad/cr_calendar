@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class DayOfWeek extends StatelessWidget {
   const DayOfWeek({
     required this.name,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String name;
 

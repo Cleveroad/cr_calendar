@@ -117,10 +117,10 @@ class DatePickerProperties {
 /// To share [isDialogMode] through the calendar.
 class DatePickerSettings extends InheritedWidget {
   const DatePickerSettings({
-    required Widget child,
+    required super.child,
     required this.landscapeDaysResizeMode,
-    Key? key,
-  }) : super(key: key, child: child);
+    super.key,
+  });
 
   final LandscapeDaysResizeMode landscapeDaysResizeMode;
 
@@ -137,8 +137,8 @@ class DatePickerSettings extends InheritedWidget {
 class CrDatePickerDialog extends StatefulWidget {
   const CrDatePickerDialog({
     required this.pickerProperties,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Properties for customization of date picker dialog.
   final DatePickerProperties pickerProperties;
