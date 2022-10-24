@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
-            primary: violet,
+            foregroundColor: violet,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8))),
           ),
@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
             ),
             shadowColor: Colors.transparent,
             elevation: 0,
-            primary: violet,
+            foregroundColor: violet,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8))),
           ),
