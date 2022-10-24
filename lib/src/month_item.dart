@@ -10,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 
-import '../cr_calendar.dart';
 import 'cr_date_picker_dialog.dart';
 
 /// Calendar page

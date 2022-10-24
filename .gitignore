@@ -3,6 +3,7 @@
 *.log
 *.pyc
 *.swp
+*.lock
 .DS_Store
 .atom/
 .buildlog/
@@ -28,16 +29,19 @@
 .packages
 .pub-cache/
 .pub/
+.lock/
 /build/
 
 # Web related
 lib/generated_plugin_registrant.dart
 
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+!android/gradlew
+!android/gradlew.bat
+!android/gradle/wrapper/gradle-wrapper.jar
+
+# iOS
+/ios/fastlane/report.xml
+/ios/Flutter/.last_build_id
+/android/fastlane/report.xml

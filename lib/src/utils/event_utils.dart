@@ -7,8 +7,6 @@ import 'package:cr_calendar/src/models/drawers.dart';
 import 'package:cr_calendar/src/models/event_count_keeper.dart';
 import 'package:jiffy/jiffy.dart';
 
-import '../models/drawers.dart';
-
 ///Returns list of events for [date]
 List<CalendarEventModel> calculateAvailableEventsForDate(
     List<CalendarEventModel> events, Jiffy date) {
