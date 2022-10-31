@@ -137,18 +137,16 @@ class MonthItemState extends State<MonthItem> {
                                   itemWidth,
                                   itemHeight,
                                 ),
-                                IgnorePointer(
-                                  child: EventsOverlay(
-                                    eventBuilder: widget.eventBuilder,
-                                    maxLines: widget.maxEventLines,
-                                    topPadding: widget.eventTopPadding ??
-                                        (itemHeight /
-                                            Contract.kDayItemTopPaddingCoef),
-                                    itemWidth: itemWidth,
-                                    itemHeight: itemHeight,
-                                    begin: _beginRange,
-                                    weekList: _weeksEvents,
-                                  ),
+                                EventsOverlay(
+                                  eventBuilder: widget.eventBuilder,
+                                  maxLines: widget.maxEventLines,
+                                  topPadding: widget.eventTopPadding ??
+                                      (itemHeight /
+                                          Contract.kDayItemTopPaddingCoef),
+                                  itemWidth: itemWidth,
+                                  itemHeight: itemHeight,
+                                  begin: _beginRange,
+                                  weekList: _weeksEvents,
                                 ),
                               ],
                             );
