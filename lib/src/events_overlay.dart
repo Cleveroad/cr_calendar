@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 
 /// Events layer
-class EventsOverlay extends StatelessWidget {
+class EventsOverlay<T> extends StatelessWidget {
   const EventsOverlay({
     required this.weekList,
     required this.begin,
@@ -18,14 +18,14 @@ class EventsOverlay extends StatelessWidget {
     super.key,
   });
 
-  final List<WeekDrawer> weekList;
+  final List<WeekDrawer<T>> weekList;
   final Jiffy begin;
   final double itemWidth;
   final double itemHeight;
   final double topPadding;
   final int maxLines;
   final EdgeInsets? padding;
-  final EventBuilder? eventBuilder;
+  final EventBuilder<T>? eventBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class EventsOverlay extends StatelessWidget {
       itemBuilder: (context, index) {
         final lineHeight = (itemHeight - topPadding) / maxLines;
 
-        return WeekEventsWidget(
+        return WeekEventsWidget<T>(
           eventBuilder: eventBuilder,
           row: index,
           eventLines: weekList[index].lines,

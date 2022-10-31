@@ -45,9 +45,9 @@ List<CalendarEventModel> calculateAvailableEventsForRange(
 }
 
 /// Returns drawers for [week]
-List<EventProperties> resolveEventDrawersForWeek(
-    int week, Jiffy monthStart, List<CalendarEventModel> events) {
-  final drawers = <EventProperties>[];
+List<EventProperties<T>> resolveEventDrawersForWeek<T>(
+    int week, Jiffy monthStart, List<CalendarEventModel<T>> events) {
+  final drawers = <EventProperties<T>>[];
 
   final beginDate = Jiffy(monthStart).add(weeks: week);
   final endDate = Jiffy(beginDate).add(days: Contract.kWeekDaysCount - 1);
@@ -63,8 +63,8 @@ List<EventProperties> resolveEventDrawersForWeek(
 }
 
 /// This method maps CalendarEventItem to EventDrawer and calculates drawer begin and end
-EventProperties? _mapSimpleEventToDrawerOrNull(
-    CalendarEventModel event, Jiffy begin, Jiffy end) {
+EventProperties<T>? _mapSimpleEventToDrawerOrNull<T>(
+    CalendarEventModel<T> event, Jiffy begin, Jiffy end) {
   final jBegin = DateTime.utc(
     event.begin.year,
     event.begin.month,
@@ -102,19 +102,21 @@ EventProperties? _mapSimpleEventToDrawerOrNull(
       begin: beginDay,
       end: endDay,
       name: event.name,
+      value: event.value,
+      id: event.id,
       backgroundColor: event.eventColor);
 }
 
 /// Map EventDrawers to EventsLineDrawer and sort them by duration on current week
-List<EventsLineDrawer> placeEventsToLines(
-    List<EventProperties> events, int maxLines) {
-  final copy = <EventProperties>[...events]
+List<EventsLineDrawer<T>> placeEventsToLines<T>(
+    List<EventProperties<T>> events, int maxLines) {
+  final copy = <EventProperties<T>>[...events]
     ..sort((a, b) => b.size().compareTo(a.size()));
 
   final lines = List.generate(maxLines, (index) {
-    final lineDrawer = EventsLineDrawer();
+    final lineDrawer = EventsLineDrawer<T>();
     for (var day = 1; day <= Contract.kWeekDaysCount; day++) {
-      final candidates = <EventProperties>[];
+      final candidates = <EventProperties<T>>[];
       copy.forEach((e) {
         if (day == e.begin) {
           candidates.add(e);

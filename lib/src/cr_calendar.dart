@@ -41,7 +41,7 @@ typedef OnRangeSelectedCallback = Function(
 typedef OnDateSelectCallback = Function(DateTime selectedDate);
 
 /// Controller for [CrCalendar].
-class CrCalendarController extends ChangeNotifier {
+class CrCalendarController<T> extends ChangeNotifier {
   /// Default constructor.
   CrCalendarController({
     this.onSwipe,
@@ -49,7 +49,7 @@ class CrCalendarController extends ChangeNotifier {
   });
 
   /// All calendar event currently stored by controller.
-  final List<CalendarEventModel>? events;
+  final List<CalendarEventModel<T>>? events;
 
   /// Current opened date in calendar.
   late DateTime date;
@@ -96,7 +96,7 @@ class CrCalendarController extends ChangeNotifier {
   }
 
   /// Add one event.
-  void addEvent(CalendarEventModel event) {
+  void addEvent(CalendarEventModel<T> event) {
     events?.add(event);
     _redrawCalendar();
   }
@@ -198,7 +198,7 @@ enum TouchMode {
 /// Stateful calendar widget.
 ///
 /// Each month is represented by one page in [PageView].
-class CrCalendar extends StatefulWidget {
+class CrCalendar<T> extends StatefulWidget {
   /// Default constructor.
   CrCalendar({
     required this.controller,
@@ -229,7 +229,7 @@ class CrCalendar extends StatefulWidget {
   final DateTime? maxDate;
 
   /// Calendar controller.
-  final CrCalendarController controller;
+  final CrCalendarController<T> controller;
 
   /// Start day of the week. Default is [WeekDay.sunday].
   final WeekDay firstDayOfWeek;
@@ -261,7 +261,7 @@ class CrCalendar extends StatefulWidget {
   final Color? backgroundColor;
 
   /// See [EventBuilder].
-  final EventBuilder? eventBuilder;
+  final EventBuilder<T>? eventBuilder;
 
   /// Padding over events widgets to for correction of their alignment.
   final double eventsTopPadding;
@@ -280,10 +280,10 @@ class CrCalendar extends StatefulWidget {
   final int onSwipeCallbackDebounceMs;
 
   @override
-  _CrCalendarState createState() => _CrCalendarState();
+  _CrCalendarState<T> createState() => _CrCalendarState<T>();
 }
 
-class _CrCalendarState extends State<CrCalendar> {
+class _CrCalendarState<T> extends State<CrCalendar<T>> {
   late Debounce _onSwipeDebounce;
 
   late DateTime _initialDate;
@@ -321,7 +321,7 @@ class _CrCalendarState extends State<CrCalendar> {
             final month = Jiffy(_initialDate).add(months: offset).dateTime;
             return Container(
               color: widget.backgroundColor,
-              child: MonthItem(
+              child: MonthItem<T>(
                 eventTopPadding: widget.eventsTopPadding,
                 displayMonth: month,
                 controller: widget.controller,
