@@ -91,13 +91,13 @@ class CrCalendarController<T> extends ChangeNotifier {
 
   /// Add list of events.
   void addEvents(List<CalendarEventModel> events) {
-    events.addAll(events);
+    this.events.addAll(events);
     _redrawCalendar();
   }
 
   /// Add one event.
   void addEvent(CalendarEventModel<T> event) {
-    events?.add(event);
+    thevents?.add(event);
     _redrawCalendar();
   }
 
