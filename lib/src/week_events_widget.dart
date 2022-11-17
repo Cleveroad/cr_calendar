@@ -3,7 +3,7 @@ import 'package:cr_calendar/src/customization/builders.dart';
 import 'package:cr_calendar/src/models/drawers.dart';
 import 'package:flutter/material.dart';
 
-class WeekEventsWidget extends StatelessWidget {
+class WeekEventsWidget<T> extends StatelessWidget {
   WeekEventsWidget({
     required this.itemHeight,
     required this.itemWidth,
@@ -23,9 +23,9 @@ class WeekEventsWidget extends StatelessWidget {
   final double itemWidth;
   final double topPadding;
   final int row;
-  final List<EventsLineDrawer> eventLines;
+  final List<EventsLineDrawer<T>> eventLines;
   late final EdgeInsets padding;
-  final EventBuilder? eventBuilder;
+  final EventBuilder<T>? eventBuilder;
 
   @override
   Widget build(BuildContext context) {
