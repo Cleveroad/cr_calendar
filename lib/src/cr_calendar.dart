@@ -49,7 +49,7 @@ class CrCalendarController<T> extends ChangeNotifier {
   });
 
   /// All calendar event currently stored by controller.
-  final List<CalendarEventModel<T>>? events;
+  List<CalendarEventModel<T>>? events;
 
   /// Current opened date in calendar.
   late DateTime date;
@@ -90,14 +90,16 @@ class CrCalendarController<T> extends ChangeNotifier {
   ValueNotifier<bool> get isShowingEvents => _doShowEvents;
 
   /// Add list of events.
-  void addEvents(List<CalendarEventModel> events) {
-    this.events.addAll(events);
+  void addEvents(List<CalendarEventModel<T>> events) {
+    this.events ??= [];
+    this.events?.addAll(events);
     _redrawCalendar();
   }
 
   /// Add one event.
   void addEvent(CalendarEventModel<T> event) {
-    thevents?.add(event);
+    events ??= [];
+    events?.add(event);
     _redrawCalendar();
   }
 
