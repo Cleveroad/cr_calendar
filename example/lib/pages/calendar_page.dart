@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:cr_calendar_example/res/colors.dart';
 import 'package:cr_calendar_example/utills/constants.dart';
@@ -19,10 +21,10 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   final _currentDate = DateTime.now();
+  final _appbarTitleNotifier = ValueNotifier<String>('');
+  final _monthNameNotifier = ValueNotifier<String>('');
 
   late CrCalendarController _calendarController;
-  late String _appbarTitle;
-  late String _monthName;
 
   @override
   void initState() {
@@ -35,6 +37,8 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   void dispose() {
     _calendarController.dispose();
+    _appbarTitleNotifier.dispose();
+    _monthNameNotifier.dispose();
     super.dispose();
   }
 
@@ -44,7 +48,10 @@ class _CalendarPageState extends State<CalendarPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: false,
-        title: Text(_appbarTitle),
+        title: ValueListenableBuilder(
+          valueListenable: _appbarTitleNotifier,
+          builder: (ctx, value, child) => Text(value),
+        ),
         actions: [
           IconButton(
             tooltip: 'Go to current date',
@@ -69,10 +76,13 @@ class _CalendarPageState extends State<CalendarPage> {
                   _changeCalendarPage(showNext: false);
                 },
               ),
-              Text(
-                _monthName,
-                style: const TextStyle(
-                    fontSize: 16, color: violet, fontWeight: FontWeight.w600),
+              ValueListenableBuilder(
+                valueListenable: _monthNameNotifier,
+                builder: (ctx, value, child) => Text(
+                  value,
+                  style: const TextStyle(
+                      fontSize: 16, color: violet, fontWeight: FontWeight.w600),
+                ),
               ),
               IconButton(
                 icon: const Icon(Icons.arrow_forward_ios),
@@ -112,16 +122,14 @@ class _CalendarPageState extends State<CalendarPage> {
       : _calendarController.swipeToPreviousPage();
 
   void _onCalendarPageChanged(int year, int month) {
-    setState(() {
-      _setTexts(year, month);
-    });
+    _setTexts(year, month);
   }
 
   /// Set app bar text and month name over calendar.
   void _setTexts(int year, int month) {
     final date = DateTime(year, month);
-    _appbarTitle = date.format(kAppBarDateFormat);
-    _monthName = date.format(kMonthFormat);
+    _appbarTitleNotifier.value = date.format(kAppBarDateFormat);
+    _monthNameNotifier.value = date.format(kMonthFormat);
   }
 
   /// Show current month page.

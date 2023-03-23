@@ -153,8 +153,8 @@ class CrCalendarController extends ChangeNotifier {
     final targetDate = dateToGoTo;
     final utcDay =
         DateTime.utc(targetDate.year, targetDate.month, targetDate.day);
-    final sought = utcDay.toJiffy();
-    final offset = date.toJiffy().diff(sought, Units.MONTH, true).ceil();
+    final sought = DateTime(utcDay.year, utcDay.month).toJiffy();
+    final offset = date.toJiffy().diff(sought, unit: Unit.month).ceil();
     if (selectDate) {
       clearSelected();
       selectedDate = utcDay;
@@ -318,7 +318,9 @@ class _CrCalendarState extends State<CrCalendar> {
           controller: widget.controller._getUpdatedPageController(),
           itemBuilder: (context, index) {
             final offset = index - widget.controller._initialPage;
-            final month = Jiffy(_initialDate).add(months: offset).dateTime;
+            final month = Jiffy.parseFromDateTime(_initialDate)
+                .add(months: offset)
+                .dateTime;
             return Container(
               color: widget.backgroundColor,
               child: MonthItem(
@@ -365,7 +367,7 @@ class _CrCalendarState extends State<CrCalendar> {
   /// Calculates month to display
   void _recalculateDisplayMonth(int offset) {
     widget.controller.date =
-        Jiffy([widget.initialDate.year, widget.initialDate.month])
+        Jiffy.parseFromList([widget.initialDate.year, widget.initialDate.month])
             .add(months: offset)
             .dateTime;
   }
@@ -376,7 +378,8 @@ class _CrCalendarState extends State<CrCalendar> {
       widget.controller.page = page;
       final offset = page - widget.controller._initialPage;
       _recalculateDisplayMonth(offset);
-      final date = Jiffy([widget.initialDate.year, widget.initialDate.month])
+      final date = Jiffy.parseFromList(
+              [widget.initialDate.year, widget.initialDate.month])
           .add(months: offset)
           .dateTime;
       widget.controller
@@ -416,19 +419,24 @@ class _CrCalendarState extends State<CrCalendar> {
         DateTime(widget.initialDate.year, widget.initialDate.month);
     if (widget.minDate != null) {
       final minMonth = DateTime(widget.minDate!.year, widget.minDate!.month);
-      widget.controller._initialPage = Jiffy(initialMoth)
+      widget.controller._initialPage = Jiffy.parseFromDateTime(initialMoth)
           .diff(
-            minMonth,
-            Units.MONTH,
+            minMonth.toJiffy(),
+            unit: Unit.month,
           )
           .toInt();
       widget.controller.page = widget.controller._initialPage;
     }
     if (widget.maxDate != null) {
       final maxMonth = DateTime(widget.maxDate!.year, widget.maxDate!.month);
-      widget.controller._maxPage =
-          Jiffy(initialMoth).diff(maxMonth, Units.MONTH).toInt().abs() +
-              widget.controller.page;
+      widget.controller._maxPage = Jiffy.parseFromDateTime(initialMoth)
+              .diff(
+                maxMonth.toJiffy(),
+                unit: Unit.month,
+              )
+              .toInt()
+              .abs() +
+          widget.controller.page;
     }
   }
 }

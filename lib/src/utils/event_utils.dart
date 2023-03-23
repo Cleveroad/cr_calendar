@@ -49,8 +49,9 @@ List<EventProperties> resolveEventDrawersForWeek(
     int week, Jiffy monthStart, List<CalendarEventModel> events) {
   final drawers = <EventProperties>[];
 
-  final beginDate = Jiffy(monthStart).add(weeks: week);
-  final endDate = Jiffy(beginDate).add(days: Contract.kWeekDaysCount - 1);
+  final beginDate = Jiffy.parseFromJiffy(monthStart).add(weeks: week);
+  final endDate =
+      Jiffy.parseFromJiffy(beginDate).add(days: Contract.kWeekDaysCount - 1);
 
   for (final e in events) {
     final simpleEvent = _mapSimpleEventToDrawerOrNull(e, beginDate, endDate);
@@ -80,22 +81,23 @@ EventProperties? _mapSimpleEventToDrawerOrNull(
     event.end.minute,
   ).toJiffy();
 
-  if (jEnd.isBefore(begin, Units.DAY) || jBegin.isAfter(end, Units.DAY)) {
+  if (jEnd.isBefore(begin, unit: Unit.day) ||
+      jBegin.isAfter(end, unit: Unit.day)) {
     return null;
   }
 
   var beginDay = 1;
   if (jBegin.isSameOrAfter(begin)) {
-    beginDay = (begin.day - jBegin.day < 1)
-        ? 1 - (begin.day - jBegin.day)
-        : 1 - (begin.day - jBegin.day) + WeekDay.values.length;
+    beginDay = (begin.dayOfWeek - jBegin.dayOfWeek < 1)
+        ? 1 - (begin.dayOfWeek - jBegin.dayOfWeek)
+        : 1 - (begin.dayOfWeek - jBegin.dayOfWeek) + WeekDay.values.length;
   }
 
   var endDay = Contract.kWeekDaysCount;
   if (jEnd.isSameOrBefore(end)) {
-    endDay = (begin.day - jEnd.day < 1)
-        ? 1 - (begin.day - jEnd.day)
-        : 1 - (begin.day - jEnd.day) + WeekDay.values.length;
+    endDay = (begin.dayOfWeek - jEnd.dayOfWeek < 1)
+        ? 1 - (begin.dayOfWeek - jEnd.dayOfWeek)
+        : 1 - (begin.dayOfWeek - jEnd.dayOfWeek) + WeekDay.values.length;
   }
 
   return EventProperties(

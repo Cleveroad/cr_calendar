@@ -5,7 +5,8 @@ import '../../cr_calendar.dart';
 
 /// Returns date for [dayOfWeek] and for [row] in which it take place
 Jiffy mapWeekDayAndRowToDate(Jiffy beginRange, int dayOfWeek, int row) {
-  final begin = Jiffy(beginRange)..add(days: dayOfWeek - 1, weeks: row);
+  final begin = Jiffy.parseFromJiffy(beginRange)
+    ..add(days: dayOfWeek - 1, weeks: row);
   return begin;
 }
 

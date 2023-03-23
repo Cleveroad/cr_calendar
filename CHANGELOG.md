@@ -1,3 +1,10 @@
+# 1.1.0
+
+- Support for Flutter 3.7
+- Updated dependencies
+- Improve example app. Note: avoid using setState calls frequently on the page where the CrCalendar
+  widget is used to improve performance.
+
 # 1.0.0+1
 
 - Fixed pub points
@@ -22,7 +29,8 @@
 
 # 0.0.7
 
-- fixed issue with page controller. Added minDate and maxDate properties for date picker and cr calendar
+- fixed issue with page controller. Added minDate and maxDate properties for date picker and cr
+  calendar
 
 # 0.0.6
 
