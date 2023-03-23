@@ -163,7 +163,6 @@ linter:
     # - diagnostic_describe_all_properties # DO reference all public properties in debug method implementations. # We don't use this
     - empty_statements # AVOID empty statements.
     - hash_and_equals # DO override hashCode if overriding == and prefer overriding == if overriding hashCode.
-    - invariant_booleans # DON'T test for conditions that can be inferred at compile time or test the same condition twice.
     - iterable_contains_unrelated_type # DON'T invoke contains on Iterable with an instance of different type than the parameter type.
     - list_remove_unrelated_type # DON'T invoke remove on List with an instance of different type than the parameter type.
     - literal_only_boolean_expressions # DON'T test for conditions composed only by literals, since the value can be inferred at compile time.

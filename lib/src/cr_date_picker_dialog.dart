@@ -162,8 +162,8 @@ class _CrDatePickerDialogState extends State<CrDatePickerDialog> {
 
   @override
   void initState() {
-    _initPicker();
     super.initState();
+    _initPicker();
   }
 
   @override

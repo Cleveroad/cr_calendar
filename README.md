@@ -67,6 +67,8 @@ class _MyAppState extends State<MyApp> {
 }
 ```
 
+Note: avoid using setState calls frequently on the page where the CrCalendar widget is used to improve performance.
+
 ### Usage of CrCalendar date picker dialog
 ##### DatePickerProperties parameters:
 |Type|Name|Description|Default value|
