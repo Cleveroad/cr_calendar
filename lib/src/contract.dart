@@ -5,7 +5,8 @@ class Contract {
   static const kTabletAspectRatioW = 3;
   static const kTabletAspectRatioH = 4;
 
-  static const kMaxWeekPerMoth = 6;
+  static const kMaxWeekPerMonth = 6;
+  static const kWeeksToShowInMonth = <int>[0, 1, 2, 3, 4, 5];
   static const kWeekDaysCount = 7;
   static const k60PercentMultiplier = 0.6;
   static const k80PercentMultiplier = 0.8;
