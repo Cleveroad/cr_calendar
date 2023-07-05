@@ -216,11 +216,22 @@ class CrCalendar extends StatefulWidget {
     this.onSwipeCallbackDebounceMs = 100,
     this.minDate,
     this.maxDate,
+    this.weeksToShow,
     this.localizedWeekDaysBuilder,
     super.key,
   })  : assert(maxEventLines <= 6, 'maxEventLines should be less then 6'),
         assert(minDate == null || maxDate == null || minDate.isBefore(maxDate),
-            'minDate should be before maxDate');
+            'minDate should be before maxDate'),
+        assert(weeksToShow == null || weeksToShow.isNotEmpty,
+            'If provided, weeksToShow cannot be empty'),
+        assert(weeksToShow == null || weeksToShow.length <= 6,
+            'weeksToShow cannot contain more that 6 elements'),
+        assert(
+            weeksToShow == null ||
+                weeksToShow.every((element) => 0 <= element && element <= 5),
+            'weeksToShow can contain either 0,1,2,3,4 or 5 only.') {
+    weeksToShow?.sort();
+  }
 
   /// The minimum date until which the calendar can scroll
   final DateTime? minDate;
@@ -278,6 +289,11 @@ class CrCalendar extends StatefulWidget {
   ///
   /// Reduces number of callbacks when [CrCalendarController] goToDate is used.
   final int onSwipeCallbackDebounceMs;
+
+  /// List of weeks to show of a month, eg. first three weeks: 0,1,2
+  /// Takes a full 6 week month as a basis, therefore week numbers must be between 0 and 6, inclusive.
+  /// If [weeksToShow] is not null, [forceSixWeek] will have no effect.
+  final List<int>? weeksToShow;
 
   /// Builder function for week day customization at the top of the calendar.
   ///
@@ -384,6 +400,7 @@ class _CrCalendarState extends State<CrCalendar> {
                 },
                 weekDaysBuilder: widget.weekDaysBuilder,
                 dayItemBuilder: widget.dayItemBuilder,
+                weeksToShow: widget.weeksToShow,
                 firstWeekDay: _firstWeekDay,
                 localizedWeekDaysBuilder: widget.localizedWeekDaysBuilder,
               ),
