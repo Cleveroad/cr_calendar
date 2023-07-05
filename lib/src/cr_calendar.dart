@@ -4,7 +4,6 @@ import 'package:cr_calendar/src/extensions/datetime_ext.dart';
 import 'package:cr_calendar/src/models/calendar_event_model.dart';
 import 'package:cr_calendar/src/month_item.dart';
 import 'package:cr_calendar/src/utils/debouncer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -217,6 +216,7 @@ class CrCalendar extends StatefulWidget {
     this.onSwipeCallbackDebounceMs = 100,
     this.minDate,
     this.maxDate,
+    this.localizedWeekDaysBuilder,
     super.key,
   })  : assert(maxEventLines <= 6, 'maxEventLines should be less then 6'),
         assert(minDate == null || maxDate == null || minDate.isBefore(maxDate),
@@ -279,6 +279,21 @@ class CrCalendar extends StatefulWidget {
   /// Reduces number of callbacks when [CrCalendarController] goToDate is used.
   final int onSwipeCallbackDebounceMs;
 
+  /// Builder function for week day customization at the top of the calendar.
+  ///
+  /// When this parameter is not null, it will be called with each week days first
+  /// letter as a String, eg. S for Sunday, M for Monday, etc.
+  ///
+  /// When this parameter is not null, the first day of the week is determined
+  /// by the app's current locale, which is en_US in Flutter by default.
+  ///
+  /// The week day names will be translated for the current locale as well,
+  /// eg. if the current locale is German, then M for Montag, D for Dienstag etc.
+  ///
+  /// When this parameter is not null, [firstDayOfWeek] and [weekDaysBuilder]
+  /// parameters are ignored.
+  final LocalizedWeekDaysBuilder? localizedWeekDaysBuilder;
+
   @override
   _CrCalendarState createState() => _CrCalendarState();
 }
@@ -289,6 +304,8 @@ class _CrCalendarState extends State<CrCalendar> {
   late DateTime _initialDate;
 
   final _minPage = 1;
+
+  late WeekDay _firstWeekDay;
 
   @override
   void initState() {
@@ -307,6 +324,19 @@ class _CrCalendarState extends State<CrCalendar> {
     widget.controller.removeListener(_redraw);
     _onSwipeDebounce.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final localizations = MaterialLocalizations.of(context);
+
+    if (widget.localizedWeekDaysBuilder != null) {
+      _firstWeekDay = WeekDay.values[localizations.firstDayOfWeekIndex];
+    } else {
+      _firstWeekDay = widget.firstDayOfWeek;
+    }
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -354,7 +384,8 @@ class _CrCalendarState extends State<CrCalendar> {
                 },
                 weekDaysBuilder: widget.weekDaysBuilder,
                 dayItemBuilder: widget.dayItemBuilder,
-                firstWeekDay: widget.firstDayOfWeek,
+                firstWeekDay: _firstWeekDay,
+                localizedWeekDaysBuilder: widget.localizedWeekDaysBuilder,
               ),
             );
           },
