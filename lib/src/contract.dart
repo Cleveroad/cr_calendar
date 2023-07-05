@@ -20,4 +20,6 @@ class Contract {
   static const kYearsInLine = 3;
 
   static const kDefaultInitialPage = 4000;
+
+  static const kDefaultDayItemBorderWidth = 0.5;
 }

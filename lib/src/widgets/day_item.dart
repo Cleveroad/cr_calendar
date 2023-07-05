@@ -1,3 +1,4 @@
+import 'package:cr_calendar/src/contract.dart';
 import 'package:flutter/material.dart';
 
 ///Represent calendar day body
@@ -27,7 +28,10 @@ class DayItem extends StatelessWidget {
         Container(
           alignment: Alignment.topCenter,
           decoration: BoxDecoration(
-            border: Border.all(width: 0.5, color: Colors.black12),
+            border: Border.all(
+              width: Contract.kDefaultDayItemBorderWidth,
+              color: Colors.black12,
+            ),
             color: isSelectedDay || isWithinRange ? Colors.black12 : null,
           ),
           child: Column(

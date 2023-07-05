@@ -24,3 +24,8 @@ typedef PickerButtonBuilder = Widget? Function(Function? onPress);
 /// Callback for getting date range data from [CrDatePickerDialog].
 typedef OnDateRangeSelected = void Function(
     DateTime? rangeBegin, DateTime? rangeEnd);
+
+/// Builder for week day customization at the top of the calendar widget.
+/// The weekdays first letter in uppercase is passed as a String,
+/// eg. M (Monday), T (Tuesday) etc.
+typedef LocalizedWeekDaysBuilder = Widget Function(String weekDay);

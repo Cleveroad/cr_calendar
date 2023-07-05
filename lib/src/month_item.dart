@@ -6,7 +6,6 @@ import 'package:cr_calendar/src/models/event_count_keeper.dart';
 import 'package:cr_calendar/src/month_calendar_widget.dart';
 import 'package:cr_calendar/src/utils/event_utils.dart';
 import 'package:cr_calendar/src/widgets/default_weekday_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -30,6 +29,7 @@ class MonthItem extends StatefulWidget {
     this.onDayTap,
     this.firstWeekDay = WeekDay.sunday,
     this.weeksToShow,
+    this.localizedWeekDaysBuilder,
     super.key,
   });
 
@@ -48,6 +48,7 @@ class MonthItem extends StatefulWidget {
   final TouchMode touchMode;
   final WeekDay firstWeekDay;
   final List<int>? weeksToShow;
+  final LocalizedWeekDaysBuilder? localizedWeekDaysBuilder;
 
   @override
   MonthItemState createState() => MonthItemState();
@@ -116,9 +117,13 @@ class MonthItemState extends State<MonthItem> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: _getDaysOfWeek(),
+        LayoutBuilder(
+          builder: (context, constraint) {
+            final size = _getConstrainedSize(constraint);
+            return Row(
+              children: _getDaysOfWeek(size.width),
+            );
+          },
         ),
         Expanded(
           child: LayoutBuilder(
@@ -215,13 +220,39 @@ class MonthItemState extends State<MonthItem> {
   }
 
   /// Returns list of week days representation
-  List<Widget> _getDaysOfWeek() {
+  List<Widget> _getDaysOfWeek(double itemWidth) {
+    if (widget.localizedWeekDaysBuilder != null) {
+      return _getLocalizedDaysOfWeek(itemWidth);
+    }
+    final sortedWeekDays = sortWeekdays(widget.firstWeekDay);
     final week = List<Widget>.generate(WeekDay.values.length, (index) {
-      final sortedWeekDays = sortWeekdays(widget.firstWeekDay);
-      return widget.weekDaysBuilder?.call(sortedWeekDays[index]) ??
-          DefaultWeekdayWidget(day: sortedWeekDays[index]);
+      return Container(
+        width: itemWidth,
+        child: widget.weekDaysBuilder?.call(sortedWeekDays[index]) ??
+            DefaultWeekdayWidget(day: sortedWeekDays[index]),
+      );
     });
     return week;
+  }
+
+  List<Widget> _getLocalizedDaysOfWeek(double itemWidth) {
+    final localizations = MaterialLocalizations.of(context);
+    final result = <Widget>[];
+
+    var i = localizations.firstDayOfWeekIndex;
+    while (true) {
+      final weekday = localizations.narrowWeekdays[i];
+      result.add(Container(
+        width: itemWidth,
+        child: widget.localizedWeekDaysBuilder!.call(weekday),
+      ));
+      if (i == (localizations.firstDayOfWeekIndex - 1) % 7) {
+        break;
+      }
+      i = (i + 1) % 7;
+    }
+
+    return result;
   }
 
   /// Returns list of events for current month

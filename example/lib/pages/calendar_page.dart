@@ -110,6 +110,7 @@ class _CalendarPageState extends State<CalendarPage> {
               minDate: DateTime.now().subtract(const Duration(days: 1000)),
               maxDate: DateTime.now().add(const Duration(days: 180)),
               //weeksToShow: const [0,1,2],
+              //localizedWeekDaysBuilder: (weekDay) => LocalizedWeekDaysWidget(weekDay: weekDay),
             ),
           ),
         ],
