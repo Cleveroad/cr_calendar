@@ -1,4 +1,5 @@
 import 'package:cr_calendar/cr_calendar.dart';
+import 'package:jiffy/jiffy.dart';
 
 /// Class with properties for building custom day item widget.
 ///
@@ -15,6 +16,7 @@ class DayItemProperties {
     required this.isInRange,
     required this.isFirstInRange,
     required this.isLastInRange,
+    required this.date,
   });
 
   final int dayNumber;
@@ -25,4 +27,5 @@ class DayItemProperties {
   final bool isInRange;
   final bool isFirstInRange;
   final bool isLastInRange;
+  final Jiffy date;
 }
