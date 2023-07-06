@@ -1,3 +1,9 @@
+# 1.2.1
+
+- Updated dependencies
+- Support for Dart 3.0
+- Added package topics to the pubspec file
+
 # 1.1.0
 
 - Support for Flutter 3.7

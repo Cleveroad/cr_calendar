@@ -3,18 +3,18 @@ import 'dart:ui';
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:flutter/material.dart';
 
-class WeekDrawer {
+final class WeekDrawer {
   WeekDrawer(this.lines);
 
   List<EventsLineDrawer> lines;
 }
 
-class EventsLineDrawer {
+final class EventsLineDrawer {
   List<EventProperties> events = []; // max 7
 }
 
 /// Event widget properties used in [EventBuilder].
-class EventProperties {
+final class EventProperties {
   EventProperties({
     required this.begin,
     required this.end,

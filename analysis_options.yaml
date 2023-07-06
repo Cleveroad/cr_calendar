@@ -86,7 +86,6 @@ linter:
     - prefer_constructors_over_static_methods # PREFER defining constructors instead of static methods to create instances.
     - prefer_contains # DON'T use indexOf to see if a collection contains an element.
     # - prefer_double_quotes # DO use double quotes where they wouldn't require additional escapes. # Conflicts with better rule prefer_single_quotes.
-    - prefer_equal_for_default_values # DO Use = to separate a named parameter from its default value.
     # - prefer_expression_function_bodies # CONSIDER using => for short members whose body is a single return statement. # Some functions are not convenient to use with this.
     - prefer_final_fields # DO prefer declaring private fields as final if they are not reassigned later in the class.
     - prefer_final_in_for_each # DO prefer declaring for-each loop variables as final if they are not reassigned later in the code.
