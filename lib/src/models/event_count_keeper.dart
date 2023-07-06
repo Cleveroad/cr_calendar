@@ -1,11 +1,11 @@
 /// Keeps non-fitted event count for week
-class NotFittedWeekEventCount {
+final class NotFittedWeekEventCount {
   NotFittedWeekEventCount(this.eventCount);
 
   List<int> eventCount;
 }
 
 /// Keeps non-fitted event count for month page
-class NotFittedPageEventCount {
+final class NotFittedPageEventCount {
   List<NotFittedWeekEventCount> weeks = [];
 }

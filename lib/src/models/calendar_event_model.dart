@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CalendarEventModel {
+final class CalendarEventModel {
   CalendarEventModel({
     required this.name,
     required this.begin,
