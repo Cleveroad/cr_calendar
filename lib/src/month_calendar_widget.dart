@@ -187,7 +187,7 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
                     isInRange: _isDateInRange(index),
                     isFirstInRange: _isDateFirstRange(index),
                     isLastInRange: _isDateLastRange(index),
-                    date: tappedDate,
+                    date: tappedDate.dateTime,
                   ),
                 )
               : DayItem(
