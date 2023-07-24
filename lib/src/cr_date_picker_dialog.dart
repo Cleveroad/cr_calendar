@@ -20,7 +20,7 @@ enum LandscapeDaysResizeMode {
 /// If you need to hide some element (e.g. picker title widget) pass SizedBox()
 /// to [DateTitleBuilder].
 @immutable
-class DatePickerProperties {
+final class DatePickerProperties {
   /// Default constructor.
   const DatePickerProperties({
     required this.onDateRangeSelected,

@@ -40,7 +40,7 @@ typedef OnRangeSelectedCallback = Function(
 typedef OnDateSelectCallback = Function(DateTime selectedDate);
 
 /// Controller for [CrCalendar].
-class CrCalendarController extends ChangeNotifier {
+final class CrCalendarController extends ChangeNotifier {
   /// Default constructor.
   CrCalendarController({
     this.onSwipe,
