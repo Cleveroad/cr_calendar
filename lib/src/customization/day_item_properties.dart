@@ -15,6 +15,7 @@ final class DayItemProperties {
     required this.isInRange,
     required this.isFirstInRange,
     required this.isLastInRange,
+    required this.date,
   });
 
   final int dayNumber;
@@ -25,4 +26,5 @@ final class DayItemProperties {
   final bool isInRange;
   final bool isFirstInRange;
   final bool isLastInRange;
+  final DateTime date;
 }
