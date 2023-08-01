@@ -109,10 +109,7 @@ EventProperties? _mapSimpleEventToDrawerOrNull(
 
 /// Map EventDrawers to EventsLineDrawer and sort them by duration on current week
 List<EventsLineDrawer> placeEventsToLines(
-    List<EventProperties> events, int maxLines) {
-  final copy = <EventProperties>[...events]
-    ..sort((a, b) => b.size().compareTo(a.size()));
-
+    List<EventProperties> copy, int maxLines) {
   final lines = List.generate(maxLines, (index) {
     final lineDrawer = EventsLineDrawer();
     for (var day = 1; day <= Contract.kWeekDaysCount; day++) {
@@ -139,17 +136,13 @@ List<NotFittedWeekEventCount> calculateOverflowedEvents(
     List<List<EventProperties>> monthEvents, int maxLines) {
   final weeks = <NotFittedWeekEventCount>[];
   for (final week in monthEvents) {
-    var countList = List.filled(WeekDay.values.length, 0);
+    final countList = List.filled(WeekDay.values.length, 0);
 
     for (final event in week) {
       for (var i = event.begin - 1; i < event.end; i++) {
         countList[i]++;
       }
     }
-    countList = countList.map((count) {
-      final notFitCount = count - maxLines;
-      return notFitCount <= 0 ? 0 : notFitCount;
-    }).toList();
     weeks.add(NotFittedWeekEventCount(countList));
   }
   return weeks;
