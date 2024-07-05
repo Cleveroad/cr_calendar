@@ -27,20 +27,20 @@ typedef OnSwipeCallback = Function(int year, int month);
 ///
 /// * events - Events that happens on selected day,
 /// * day - [DateTime] instance of selected day.
-typedef OnTapCallback = Function(List<CalendarEventModel> events, DateTime day);
+typedef OnTapCallback<T> = Function(List<CalendarEventModel<T>> events, DateTime day);
 
 /// On date range selected callback
 ///
 /// * events - Events that happens in selected range
 /// * begin - [DateTime] instance of range beginning
 /// * end - [DateTime] instance of range ending
-typedef OnRangeSelectedCallback = Function(
-    List<CalendarEventModel> events, DateTime? begin, DateTime? end);
+typedef OnRangeSelectedCallback<T> = Function(
+    List<CalendarEventModel<T>> events, DateTime? begin, DateTime? end);
 
 typedef OnDateSelectCallback = Function(DateTime selectedDate);
 
 /// Controller for [CrCalendar].
-final class CrCalendarController extends ChangeNotifier {
+final class CrCalendarController<T> extends ChangeNotifier {
   /// Default constructor.
   CrCalendarController({
     this.onSwipe,
@@ -48,7 +48,7 @@ final class CrCalendarController extends ChangeNotifier {
   });
 
   /// All calendar event currently stored by controller.
-  final List<CalendarEventModel>? events;
+  final List<CalendarEventModel<T>>? events;
 
   /// Current opened date in calendar.
   late DateTime date;
@@ -62,7 +62,7 @@ final class CrCalendarController extends ChangeNotifier {
   DateTime? selectedDate;
 
   /// List of events which are in selected day or selected range.
-  List<CalendarEventModel>? selectedEvents;
+  List<CalendarEventModel<T>>? selectedEvents;
 
   /// See [DateRangeModel].
   DateRangeModel selectedRange = DateRangeModel();
@@ -89,15 +89,38 @@ final class CrCalendarController extends ChangeNotifier {
   ValueNotifier<bool> get isShowingEvents => _doShowEvents;
 
   /// Add list of events.
-  void addEvents(List<CalendarEventModel> events) {
+  void addEvents(List<CalendarEventModel<T>> events) {
     events.addAll(events);
     _redrawCalendar();
   }
 
   /// Add one event.
-  void addEvent(CalendarEventModel event) {
+  void addEvent(CalendarEventModel<T> event) {
     events?.add(event);
     _redrawCalendar();
+  }
+
+  /// Update event at index if present.
+  void updateEvent(int indexToUpdate, CalendarEventModel<T> event) {
+    if (events != null && indexToUpdate >= 0 && indexToUpdate < events!.length) {
+      events![indexToUpdate] = event;
+      _redrawCalendar();
+    }
+  }
+
+  /// Remove event at index if present.
+  void removeEvent(int indexToRemove) {
+    if (events != null && indexToRemove >= 0 && indexToRemove < events!.length) {
+      events!.removeAt(indexToRemove);
+      _redrawCalendar();
+    }
+  }
+
+  /// Remove event at index if present.
+  void replaceEvents(List<CalendarEventModel<T>> newEvents) {
+      events?.clear(); // Remove all events
+      events?.addAll(newEvents); // Add new events
+      _redrawCalendar();
   }
 
   /// Clear selected day
@@ -197,7 +220,7 @@ enum TouchMode {
 /// Stateful calendar widget.
 ///
 /// Each month is represented by one page in [PageView].
-class CrCalendar extends StatefulWidget {
+class CrCalendar<T> extends StatefulWidget {
   /// Default constructor.
   CrCalendar({
     required this.controller,
@@ -240,7 +263,7 @@ class CrCalendar extends StatefulWidget {
   final DateTime? maxDate;
 
   /// Calendar controller.
-  final CrCalendarController controller;
+  final CrCalendarController<T> controller;
 
   /// Start day of the week. Default is [WeekDay.sunday].
   final WeekDay firstDayOfWeek;
@@ -256,7 +279,7 @@ class CrCalendar extends StatefulWidget {
 
   /// Callback fired when calendar day is tapped in calendar
   /// with [TouchMode.singleTap] touch mode.
-  final OnTapCallback? onDayClicked;
+  final OnTapCallback<T>? onDayClicked;
 
   /// See [WeekDaysBuilder].
   final WeekDaysBuilder? weekDaysBuilder;
@@ -272,7 +295,7 @@ class CrCalendar extends StatefulWidget {
   final Color? backgroundColor;
 
   /// See [EventBuilder].
-  final EventBuilder? eventBuilder;
+  final EventBuilder<T>? eventBuilder;
 
   /// Padding over events widgets to for correction of their alignment.
   final double eventsTopPadding;
@@ -311,10 +334,10 @@ class CrCalendar extends StatefulWidget {
   final LocalizedWeekDaysBuilder? localizedWeekDaysBuilder;
 
   @override
-  _CrCalendarState createState() => _CrCalendarState();
+  _CrCalendarState<T> createState() => _CrCalendarState<T>();
 }
 
-class _CrCalendarState extends State<CrCalendar> {
+class _CrCalendarState<T> extends State<CrCalendar<T>> {
   late Debounce _onSwipeDebounce;
 
   late DateTime _initialDate;
@@ -369,7 +392,7 @@ class _CrCalendarState extends State<CrCalendar> {
                 .dateTime;
             return Container(
               color: widget.backgroundColor,
-              child: MonthItem(
+              child: MonthItem<T>(
                 eventTopPadding: widget.eventsTopPadding,
                 displayMonth: month,
                 controller: widget.controller,

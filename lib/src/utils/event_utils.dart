@@ -8,9 +8,9 @@ import 'package:cr_calendar/src/models/event_count_keeper.dart';
 import 'package:jiffy/jiffy.dart';
 
 ///Returns list of events for [date]
-List<CalendarEventModel> calculateAvailableEventsForDate(
-    List<CalendarEventModel> events, Jiffy date) {
-  final eventsHappen = <CalendarEventModel>[];
+List<CalendarEventModel<T>> calculateAvailableEventsForDate<T>(
+    List<CalendarEventModel<T>> events, Jiffy date) {
+  final eventsHappen = <CalendarEventModel<T>>[];
   for (final event in events) {
     final eventStartUtc =
         DateTime.utc(event.begin.year, event.begin.month, event.begin.day);
@@ -24,9 +24,9 @@ List<CalendarEventModel> calculateAvailableEventsForDate(
   return eventsHappen;
 }
 
-List<CalendarEventModel> calculateAvailableEventsForRange(
-    List<CalendarEventModel> events, Jiffy? start, Jiffy? end) {
-  final eventsHappen = <CalendarEventModel>[];
+List<CalendarEventModel<T>> calculateAvailableEventsForRange<T>(
+    List<CalendarEventModel<T>> events, Jiffy? start, Jiffy? end) {
+  final eventsHappen = <CalendarEventModel<T>>[];
 
   for (final event in events) {
     final eventStartUtc =
@@ -45,9 +45,9 @@ List<CalendarEventModel> calculateAvailableEventsForRange(
 }
 
 /// Returns drawers for [week]
-List<EventProperties> resolveEventDrawersForWeek(
-    int week, Jiffy monthStart, List<CalendarEventModel> events) {
-  final drawers = <EventProperties>[];
+List<EventProperties<T>> resolveEventDrawersForWeek<T>(
+    int week, Jiffy monthStart, List<CalendarEventModel<T>> events) {
+  final drawers = <EventProperties<T>>[];
 
   final beginDate = Jiffy.parseFromJiffy(monthStart).add(weeks: week);
   final endDate =
@@ -64,8 +64,8 @@ List<EventProperties> resolveEventDrawersForWeek(
 }
 
 /// This method maps CalendarEventItem to EventDrawer and calculates drawer begin and end
-EventProperties? _mapSimpleEventToDrawerOrNull(
-    CalendarEventModel event, Jiffy begin, Jiffy end) {
+EventProperties<T>? _mapSimpleEventToDrawerOrNull<T>(
+    CalendarEventModel<T> event, Jiffy begin, Jiffy end) {
   final jBegin = DateTime.utc(
     event.begin.year,
     event.begin.month,
@@ -104,19 +104,20 @@ EventProperties? _mapSimpleEventToDrawerOrNull(
       begin: beginDay,
       end: endDay,
       name: event.name,
+      data: event.data,
       backgroundColor: event.eventColor);
 }
 
 /// Map EventDrawers to EventsLineDrawer and sort them by duration on current week
-List<EventsLineDrawer> placeEventsToLines(
-    List<EventProperties> events, int maxLines) {
-  final copy = <EventProperties>[...events]
+List<EventsLineDrawer<T>> placeEventsToLines<T>(
+    List<EventProperties<T>> events, int maxLines) {
+  final copy = <EventProperties<T>>[...events]
     ..sort((a, b) => b.size().compareTo(a.size()));
 
   final lines = List.generate(maxLines, (index) {
-    final lineDrawer = EventsLineDrawer();
+    final lineDrawer = EventsLineDrawer<T>();
     for (var day = 1; day <= Contract.kWeekDaysCount; day++) {
-      final candidates = <EventProperties>[];
+      final candidates = <EventProperties<T>>[];
       copy.forEach((e) {
         if (day == e.begin) {
           candidates.add(e);

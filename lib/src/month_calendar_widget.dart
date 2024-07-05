@@ -12,7 +12,7 @@ import '../cr_calendar.dart';
 import '../src/internal/pair.dart';
 
 /// Calendar days grid
-class MonthCalendarWidget extends StatefulWidget {
+class MonthCalendarWidget<T> extends StatefulWidget {
   const MonthCalendarWidget({
     required this.overflowedEvents,
     required this.weekCount,
@@ -43,21 +43,21 @@ class MonthCalendarWidget extends StatefulWidget {
   final int daysInMonth;
   final double itemWidth;
   final double itemHeight;
-  final CrCalendarController controller;
+  final CrCalendarController<T> controller;
   final Function(Jiffy)? onDayTap;
-  final Function(List<CalendarEventModel>, Jiffy)? onDaySelected;
-  final Function(List<CalendarEventModel>)? onRangeSelected;
+  final Function(List<CalendarEventModel<T>>, Jiffy)? onDaySelected;
+  final Function(List<CalendarEventModel<T>>)? onRangeSelected;
   final TouchMode touchMode;
   final List<int> weeksToShow;
 
   @override
-  MonthCalendarWidgetState createState() => MonthCalendarWidgetState();
+  MonthCalendarWidgetState<T> createState() => MonthCalendarWidgetState<T>();
 }
 
-class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
+class MonthCalendarWidgetState<T> extends State<MonthCalendarWidget<T>> {
   Pair<int, int>? _selectedRangeIndices;
 
-  CrCalendarController get _controller => widget.controller;
+  CrCalendarController<T> get _controller => widget.controller;
 
   @override
   void initState() {
@@ -207,7 +207,7 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
 
   void _performDaySelecting(Jiffy jiffyDay) {
     final events =
-        calculateAvailableEventsForDate(_controller.events ?? [], jiffyDay);
+        calculateAvailableEventsForDate<T>(_controller.events ?? [], jiffyDay);
 
     _controller.selectedDate = jiffyDay.dateTime;
     widget.onDaySelected?.call(events, jiffyDay);
@@ -240,7 +240,7 @@ class MonthCalendarWidgetState extends State<MonthCalendarWidget> {
   }
 
   void _useOnRangeSelectedCallback() {
-    widget.onRangeSelected?.call(calculateAvailableEventsForRange(
+    widget.onRangeSelected?.call(calculateAvailableEventsForRange<T>(
       _controller.events ?? [],
       _controller.selectedRange.begin?.toJiffy(),
       _controller.selectedRange.end?.toJiffy() ??

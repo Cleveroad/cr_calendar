@@ -9,7 +9,7 @@ typedef DayItemBuilder = Widget Function(DayItemProperties properties);
 
 /// Builder for customization of events. Events look like lines over calendar
 /// days.
-typedef EventBuilder = Widget Function(EventProperties eventDrawer);
+typedef EventBuilder<T> = Widget Function(EventProperties<T> eventDrawer);
 
 /// Builder for [YearPickerWidget] item.
 typedef YearPickerItemBuilder = Widget Function(int year, bool isSelected);

@@ -3,23 +3,24 @@ import 'dart:ui';
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:flutter/material.dart';
 
-final class WeekDrawer {
+final class WeekDrawer<T> {
   WeekDrawer(this.lines);
 
-  List<EventsLineDrawer> lines;
+  List<EventsLineDrawer<T>> lines;
 }
 
-final class EventsLineDrawer {
-  List<EventProperties> events = []; // max 7
+final class EventsLineDrawer<T> {
+  List<EventProperties<T>> events = []; // max 7
 }
 
 /// Event widget properties used in [EventBuilder].
-final class EventProperties {
+final class EventProperties<T> {
   EventProperties({
     required this.begin,
     required this.end,
     required this.name,
     required this.backgroundColor,
+    this.data,
   });
 
   /// Begin day number.
@@ -33,4 +34,5 @@ final class EventProperties {
   String name;
 
   int size() => end - begin + 1;
+  T? data;
 }

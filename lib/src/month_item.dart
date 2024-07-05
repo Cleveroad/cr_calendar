@@ -12,7 +12,7 @@ import 'package:jiffy/jiffy.dart';
 import 'cr_date_picker_dialog.dart';
 
 /// Calendar page
-class MonthItem extends StatefulWidget {
+class MonthItem<T> extends StatefulWidget {
   const MonthItem({
     required this.controller,
     required this.displayMonth,
@@ -35,14 +35,14 @@ class MonthItem extends StatefulWidget {
 
   final int maxEventLines;
   final int? currentDay;
-  final Function(List<CalendarEventModel>, Jiffy)? onDaySelected;
-  final Function(List<CalendarEventModel>)? onRangeSelected;
+  final Function(List<CalendarEventModel<T>>, Jiffy)? onDaySelected;
+  final Function(List<CalendarEventModel<T>>)? onRangeSelected;
   final Function(Jiffy)? onDayTap;
   final WeekDaysBuilder? weekDaysBuilder;
   final DayItemBuilder? dayItemBuilder;
   final bool forceSixWeek;
-  final EventBuilder? eventBuilder;
-  final CrCalendarController controller;
+  final EventBuilder<T>? eventBuilder;
+  final CrCalendarController<T> controller;
   final DateTime displayMonth;
   final double? eventTopPadding;
   final TouchMode touchMode;
@@ -51,10 +51,10 @@ class MonthItem extends StatefulWidget {
   final LocalizedWeekDaysBuilder? localizedWeekDaysBuilder;
 
   @override
-  MonthItemState createState() => MonthItemState();
+  MonthItemState<T> createState() => MonthItemState<T>();
 }
 
-class MonthItemState extends State<MonthItem> {
+class MonthItemState<T> extends State<MonthItem<T>> {
   final _monthKey = GlobalKey<MonthCalendarWidgetState>();
   final _overflowedEvents = NotFittedPageEventCount();
 
@@ -63,7 +63,7 @@ class MonthItemState extends State<MonthItem> {
   late Jiffy _endRange;
   late int _beginOffset;
   late int _daysInMonth;
-  late List<WeekDrawer> _weeksEvents;
+  late List<WeekDrawer<T>> _weeksEvents;
 
   @override
   void initState() {
@@ -79,7 +79,7 @@ class MonthItemState extends State<MonthItem> {
   }
 
   @override
-  void didUpdateWidget(MonthItem oldWidget) {
+  void didUpdateWidget(MonthItem<T> oldWidget) {
     initEvents();
     super.didUpdateWidget(oldWidget);
   }
@@ -149,7 +149,7 @@ class MonthItemState extends State<MonthItem> {
                                   itemHeight,
                                 ),
                                 IgnorePointer(
-                                  child: EventsOverlay(
+                                  child: EventsOverlay<T>(
                                     eventBuilder: widget.eventBuilder,
                                     maxLines: widget.maxEventLines,
                                     topPadding: widget.eventTopPadding ??
@@ -198,7 +198,7 @@ class MonthItemState extends State<MonthItem> {
   /// Builds MonthCalendarWidget
   MonthCalendarWidget _getMonthCalendarWidget(
       double itemWidth, double itemHeight) {
-    return MonthCalendarWidget(
+    return MonthCalendarWidget<T>(
       controller: widget.controller,
       key: _monthKey,
       itemWidth: itemWidth,
@@ -256,7 +256,7 @@ class MonthItemState extends State<MonthItem> {
   }
 
   /// Returns list of events for current month
-  List<WeekDrawer> _calculateWeeks() {
+  List<WeekDrawer<T>> _calculateWeeks() {
     final begin = _beginRange;
     final end = _endRange;
     _weekCount = widget.weeksToShow != null
@@ -265,16 +265,16 @@ class MonthItemState extends State<MonthItem> {
             ? Contract.kMaxWeekPerMonth
             : (end.diff(begin, unit: Unit.week) + 1).toInt(); // inclusive
 
-    final drawersForWeek = <List<EventProperties>>[];
+    final drawersForWeek = <List<EventProperties<T>>>[];
 
     final weeks = List.generate(_weekCount, (index) {
-      final eventDrawers = resolveEventDrawersForWeek(
+      final eventDrawers = resolveEventDrawersForWeek<T>(
         widget.weeksToShow != null ? widget.weeksToShow![index] : index,
         _beginRange,
         widget.controller.events ?? [],
       );
       final placedEvents =
-          placeEventsToLines(eventDrawers, widget.maxEventLines);
+          placeEventsToLines<T>(eventDrawers, widget.maxEventLines);
       drawersForWeek.add(eventDrawers);
       return WeekDrawer(placedEvents);
     });
