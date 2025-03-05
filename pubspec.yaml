@@ -19,7 +19,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  intl: ^0.19.0
+  intl: ^0.20.2
   jiffy: ^6.3.1
   scrollable_positioned_list: ^0.3.8
 
