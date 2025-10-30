@@ -30,7 +30,7 @@ class WeekEventsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: topPadding),
+      margin: EdgeInsets.only(top: row == 0 ? 0 : topPadding),
       height: itemHeight - topPadding,
       child: Stack(
         children: _makePositionedEvents(),
