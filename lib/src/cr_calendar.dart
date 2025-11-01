@@ -343,20 +343,8 @@ class _CrCalendarState extends State<CrCalendar> {
   }
 
   @override
-  void didChangeDependencies() {
-    final localizations = MaterialLocalizations.of(context);
-
-    if (widget.localizedWeekDaysBuilder != null) {
-      _firstWeekDay = WeekDay.values[localizations.firstDayOfWeekIndex];
-    } else {
-      _firstWeekDay = widget.firstDayOfWeek;
-    }
-
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _initializeFirstDayOfWeek();
     return OrientationBuilder(
       builder: (BuildContext context, Orientation orientation) {
         return PageView.builder(
@@ -485,6 +473,16 @@ class _CrCalendarState extends State<CrCalendar> {
               .toInt()
               .abs() +
           widget.controller.page;
+    }
+  }
+
+  void _initializeFirstDayOfWeek() {
+    final localizations = MaterialLocalizations.of(context);
+
+    if (widget.localizedWeekDaysBuilder != null) {
+      _firstWeekDay = WeekDay.values[localizations.firstDayOfWeekIndex];
+    } else {
+      _firstWeekDay = widget.firstDayOfWeek;
     }
   }
 }
